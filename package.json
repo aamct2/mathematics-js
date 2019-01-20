@@ -1,0 +1,29 @@
+{
+  "name": "mathematics",
+  "version": "1.0.0",
+  "description": "mathematics is a library of abstract mathematics classes",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "lint": "prettier-tslint fix '**/*.ts{,x}'",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aamct2/mathematics-js.git"
+  },
+  "author": "Aaron McTavish",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aamct2/mathematics-js/issues"
+  },
+  "homepage": "https://github.com/aamct2/mathematics-js#readme",
+  "devDependencies": {
+    "@types/jest": "23.3.13",
+    "jest": "23.6.0",
+    "ts-jest": "23.10.5",
+    "tslint": "5.12.1",
+    "tslint-config-prettier": "1.17.0",
+    "typescript": "3.2.4"
+  }
+}
