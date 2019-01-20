@@ -2,9 +2,9 @@ import { FiniteSet } from "../sets/FiniteSet"
 
 export class FiniteFunction<T extends IEquatable<T>, G extends IEquatable<G>>
   implements IEquatable<FiniteFunction<T, G>> {
-  private domain: FiniteSet<T>
-  private codomain: FiniteSet<G>
-  private relation: IMap<T, G>
+  public readonly domain: FiniteSet<T>
+  public readonly codomain: FiniteSet<G>
+  public readonly relation: IMap<T, G>
 
   public constructor(domain: FiniteSet<T>, codomain: FiniteSet<G>, relation: IMap<T, G>) {
     this.domain = domain
