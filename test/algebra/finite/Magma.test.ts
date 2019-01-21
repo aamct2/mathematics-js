@@ -13,6 +13,7 @@ describe("FiniteMagma", () => {
     const testSet = new FiniteSet<RealNumber>([0, 1, 2].map(x => new RealNumber(x)))
 
     expect(() => {
+      // tslint:disable-next-line:no-unused-expression
       new FiniteMagma(testSet, Zmod2Addition)
     }).toThrow()
   })

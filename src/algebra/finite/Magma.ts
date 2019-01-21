@@ -35,6 +35,9 @@ export class FiniteMagma<T extends IEquatable<T>> {
     return this.operation.applyMap(input)
   }
 
+  /**
+   * Returns the set of all elements of the structure `a` such that there exists a `b` where `a = b * b`.
+   */
   public setOfSquareElements(): FiniteSet<T> {
     if (!("all square elements" in this.magmaProperties)) {
       const result = new FiniteSet<T>()
