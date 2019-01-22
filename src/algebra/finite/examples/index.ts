@@ -17,7 +17,5 @@ export class ZmodNAdditionMap implements IMap<Tuple, RealNumber> {
     } else {
       throw new Error("The input for the `ZmodNAdditionMap` contained an element that was not an `IntegerNumber`.")
     }
-
-    return new RealNumber(0)
   }
 }
