@@ -6,6 +6,8 @@ export class FiniteFunction<T extends IEquatable<T>, G extends IEquatable<G>>
   public readonly codomain: FiniteSet<G>
   public readonly relation: IMap<T, G>
 
+  protected functionProperties: { [key: string]: boolean } = {}
+
   public constructor(domain: FiniteSet<T>, codomain: FiniteSet<G>, relation: IMap<T, G>) {
     this.domain = domain
     this.codomain = codomain
