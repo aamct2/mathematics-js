@@ -20,6 +20,10 @@ describe("FiniteBinaryOperation", () => {
       expect(Zmod2Addition.isAssociative()).toBeTruthy()
     })
 
+    test("Zmod2 addition is commutative", () => {
+      expect(Zmod2Addition.isCommutative()).toBeTruthy()
+    })
+
     test("Zmod2 multiplication is idempotent", () => {
       const Zmod2Multiplication = new FiniteBinaryOperation(Zmod2Set, new ZmodNMultiplicationMap(new RealNumber(2)))
 

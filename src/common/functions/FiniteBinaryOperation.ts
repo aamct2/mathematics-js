@@ -7,6 +7,7 @@ import { FiniteFunction } from "./FiniteFunction"
 enum FiniteBinaryOperationPropertyKeys {
   Associativity = "associativity",
   CayleyTable = "cayley table",
+  Commutivity = "commutivity",
   Idempotent = "idempotent",
 }
 
@@ -112,6 +113,38 @@ export class FiniteBinaryOperation<T extends IEquatable<T>> extends FiniteFuncti
     }
 
     return this.functionProperties[FiniteBinaryOperationPropertyKeys.Associativity]
+  }
+
+  /**
+   * Determines if the operation is commutative. In other words, `a + b = b + a` for all `a` and `b`.
+   */
+  public isCommutative(): boolean {
+    if (!(FiniteBinaryOperationPropertyKeys.Commutivity in this.functionProperties)) {
+      const domainSize = this.codomain.cardinality()
+
+      for (let index1 = 0; index1 < domainSize; index1++) {
+        const element1 = this.codomain.element(index1)
+
+        for (let index2 = 0; index2 < domainSize; index2++) {
+          const element2 = this.codomain.element(index2)
+
+          const tuple1 = new Tuple(2, [element1, element2])
+          const tuple2 = new Tuple(2, [element2, element1])
+
+          const lhs = this.applyMap(tuple1)
+          const rhs = this.applyMap(tuple2)
+
+          if (lhs.isEqualTo(rhs) === false) {
+            this.functionProperties[FiniteBinaryOperationPropertyKeys.Commutivity] = false
+            return false
+          }
+        }
+      }
+
+      this.functionProperties[FiniteBinaryOperationPropertyKeys.Commutivity] = true
+    }
+
+    return this.functionProperties[FiniteBinaryOperationPropertyKeys.Commutivity]
   }
 
   /**

@@ -20,6 +20,10 @@ describe("FiniteSemiGroup", () => {
     test("it is not a band", () => {
       expect(Zmod2SemiGroup.isBand()).toBeFalsy()
     })
+
+    test("it is not a semilattice", () => {
+      expect(Zmod2SemiGroup.isSemilattice()).toBeFalsy()
+    })
   })
 
   describe("given (Zmod2, *)", () => {
@@ -28,6 +32,10 @@ describe("FiniteSemiGroup", () => {
 
     test("it is a band", () => {
       expect(Zmod2SemiGroup.isBand()).toBeTruthy()
+    })
+
+    test("it is a semilattice", () => {
+      expect(Zmod2SemiGroup.isSemilattice()).toBeTruthy()
     })
   })
 })

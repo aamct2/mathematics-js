@@ -5,6 +5,7 @@ import { FiniteMagma } from "./Magma"
 
 enum FiniteSemiGroupPropertyKeys {
   Band = "band",
+  Semilattice = "semilattice",
 }
 
 /**
@@ -32,5 +33,17 @@ export class FiniteSemiGroup<T extends IEquatable<T>> extends FiniteMagma<T> {
     }
 
     return this.semigroupProperties[FiniteSemiGroupPropertyKeys.Band]
+  }
+
+  /**
+   * Returns whether or not the semigroup is also a semilattice (a semigroup that is both a band and commutative).
+   */
+  public isSemilattice(): boolean {
+    if (!(FiniteSemiGroupPropertyKeys.Semilattice in this.semigroupProperties)) {
+      this.semigroupProperties[FiniteSemiGroupPropertyKeys.Semilattice] =
+        this.isBand() && this.operation.isCommutative()
+    }
+
+    return this.semigroupProperties[FiniteSemiGroupPropertyKeys.Semilattice]
   }
 }
