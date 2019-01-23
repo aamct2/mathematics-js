@@ -9,10 +9,11 @@ import { Tuple } from "../../common/sets/Tuple"
  * @template T The `type` of element in the magma.
  */
 export class FiniteMagma<T extends IEquatable<T>> {
+  protected operation: FiniteBinaryOperation<T>
+
   private magmaProperties: { [key: string]: boolean } = {}
 
   private set: FiniteSet<T>
-  private operation: FiniteBinaryOperation<T>
   private allSquareElements?: FiniteSet<T>
 
   public constructor(set: FiniteSet<T>, operation: FiniteBinaryOperation<T>) {

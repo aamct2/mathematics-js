@@ -7,6 +7,7 @@ import { FiniteFunction } from "./FiniteFunction"
 enum FiniteBinaryOperationPropertyKeys {
   Associativity = "associativity",
   CayleyTable = "cayley table",
+  Idempotent = "idempotent",
 }
 
 export class FiniteBinaryOperation<T extends IEquatable<T>> extends FiniteFunction<Tuple, T> {
@@ -111,5 +112,26 @@ export class FiniteBinaryOperation<T extends IEquatable<T>> extends FiniteFuncti
     }
 
     return this.functionProperties[FiniteBinaryOperationPropertyKeys.Associativity]
+  }
+
+  /**
+   * Determines if the operation is idempotent. In other words `a + a = a` for all `a`.
+   */
+  public isIdempotent(): boolean {
+    if (!(FiniteBinaryOperationPropertyKeys.Idempotent in this.functionProperties)) {
+      for (let index = 0; index < this.codomain.cardinality(); index++) {
+        const element = this.codomain.element(index)
+        const tuple = new Tuple(2, [element, element])
+
+        if (this.applyMap(tuple).isEqualTo(element) === false) {
+          this.functionProperties[FiniteBinaryOperationPropertyKeys.Idempotent] = false
+          return false
+        }
+      }
+
+      this.functionProperties[FiniteBinaryOperationPropertyKeys.Idempotent] = true
+    }
+
+    return this.functionProperties[FiniteBinaryOperationPropertyKeys.Idempotent]
   }
 }

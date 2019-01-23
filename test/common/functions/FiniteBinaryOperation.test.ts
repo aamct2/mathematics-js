@@ -1,4 +1,5 @@
-import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples"
+import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples/ZmodNAdditionMap"
+import { ZmodNMultiplicationMap } from "../../../src/algebra/finite/examples/ZmodNMultiplicationMap"
 import { FiniteBinaryOperation } from "../../../src/common/functions/FiniteBinaryOperation"
 import { RealNumber } from "../../../src/common/RealNumber"
 import { FiniteSet } from "../../../src/common/sets/FiniteSet"
@@ -17,6 +18,27 @@ describe("FiniteBinaryOperation", () => {
 
     test("Zmod2 addition is associative", () => {
       expect(Zmod2Addition.isAssociative()).toBeTruthy()
+    })
+
+    test("Zmod2 multiplication is idempotent", () => {
+      const Zmod2Multiplication = new FiniteBinaryOperation(Zmod2Set, new ZmodNMultiplicationMap(new RealNumber(2)))
+
+      expect(Zmod2Multiplication.isIdempotent()).toBeTruthy()
+    })
+  })
+
+  describe("given Zmod3", () => {
+    const Zmod3Set = new FiniteSet<RealNumber>([0, 1, 2].map(x => new RealNumber(x)))
+    const Zmod3Addition = new FiniteBinaryOperation(Zmod3Set, new ZmodNAdditionMap(new RealNumber(3)))
+
+    test("Zmod3 addition is associative", () => {
+      expect(Zmod3Addition.isAssociative()).toBeTruthy()
+    })
+
+    test("Zmod3 multiplication is not idempotent", () => {
+      const Zmod3Multiplication = new FiniteBinaryOperation(Zmod3Set, new ZmodNMultiplicationMap(new RealNumber(3)))
+
+      expect(Zmod3Multiplication.isIdempotent()).toBeFalsy()
     })
   })
 })
