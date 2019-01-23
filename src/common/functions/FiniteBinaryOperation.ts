@@ -53,7 +53,7 @@ export class FiniteBinaryOperation<T extends IEquatable<T>> extends FiniteFuncti
 
       const lightTable = new SquareMatrix(domainSize + 1, RealNumber)
 
-      const originalTable = this.cayleyTable
+      const originalTable = this.cayleyTableGeneric()
       const cayleyMatrix = new SquareMatrix(domainSize + 1, RealNumber)
 
       // Turn the Cayley table into a `SquareMatrix` for easier processing
