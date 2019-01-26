@@ -1,5 +1,9 @@
 export class IntegerNumber
-  implements IComparable<IntegerNumber>, IEquatable<IntegerNumber>, ISubtractable<IntegerNumber> {
+  implements
+    IComparable<IntegerNumber>,
+    IEquatable<IntegerNumber>,
+    IMultiplicativeIdentity<IntegerNumber>,
+    ISubtractable<IntegerNumber> {
   public value: number
 
   public constructor(value: number = 0) {
@@ -10,12 +14,16 @@ export class IntegerNumber
     this.value = value
   }
 
-  public add(rhs: IntegerNumber): IntegerNumber {
-    return new IntegerNumber(this.value + rhs.value)
-  }
-
   public get additiveIdentity(): IntegerNumber {
     return new IntegerNumber()
+  }
+
+  public get multiplicativeIdentity(): IntegerNumber {
+    return new IntegerNumber(1)
+  }
+
+  public add(rhs: IntegerNumber): IntegerNumber {
+    return new IntegerNumber(this.value + rhs.value)
   }
 
   public compareTo(rhs: IntegerNumber): number {

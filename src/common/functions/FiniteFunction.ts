@@ -12,7 +12,7 @@ export class FiniteFunction<T extends IEquatable<T>, G extends IEquatable<G>>
     this.domain = domain
     this.codomain = codomain
 
-    for (let index = 0; index < this.domain.cardinality() - 1; index++) {
+    for (let index = 0; index < this.domain.cardinality(); index++) {
       const element = this.domain.element(index)
       const mappedElement = relation.applyMap(element)
 
