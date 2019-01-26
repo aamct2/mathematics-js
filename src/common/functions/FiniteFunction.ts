@@ -2,6 +2,7 @@ import { FiniteSet } from "../sets/FiniteSet"
 
 enum FunctionPropertiesKeys {
   Injective = "injective",
+  Surjective = "surjective",
 }
 
 export class FiniteFunction<T extends IEquatable<T>, G extends IEquatable<G>>
@@ -81,5 +82,35 @@ export class FiniteFunction<T extends IEquatable<T>, G extends IEquatable<G>>
     }
 
     return this.functionProperties[FunctionPropertiesKeys.Injective]
+  }
+
+  /**
+   * Determines whether or not the function is surjective (also known as onto). It is surjective if every element in the codomain is mapped to by at least one element of its domain.
+   */
+  public isSurjective(): boolean {
+    if (!(FunctionPropertiesKeys.Surjective in this.functionProperties)) {
+      for (let codomainIndex = 0; codomainIndex < this.codomain.cardinality(); codomainIndex++) {
+        const codomainElement = this.codomain.element(codomainIndex)
+        let found = false
+
+        InnerLoop: for (let domainIndex = 0; domainIndex < this.domain.cardinality(); domainIndex++) {
+          const domainElement = this.domain.element(domainIndex)
+
+          if (this.applyMap(domainElement).isEqualTo(codomainElement)) {
+            found = true
+            break InnerLoop
+          }
+        }
+
+        if (!found) {
+          this.functionProperties[FunctionPropertiesKeys.Surjective] = false
+          return false
+        }
+      }
+
+      this.functionProperties[FunctionPropertiesKeys.Surjective] = true
+    }
+
+    return this.functionProperties[FunctionPropertiesKeys.Surjective]
   }
 }
