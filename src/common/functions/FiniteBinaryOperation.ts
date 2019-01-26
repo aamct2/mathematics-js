@@ -9,10 +9,19 @@ enum FiniteBinaryOperationPropertyKeys {
   CayleyTable = "cayley table",
   Commutivity = "commutivity",
   Idempotent = "idempotent",
+  Identity = "identity",
 }
 
 export class FiniteBinaryOperation<T extends IEquatable<T>> extends FiniteFunction<Tuple, T> {
   private cayleyTable: number[][] = []
+  private identityElement?: T
+
+  public get identity(): T | undefined {
+    // First check to see if there is one and generate it along the way
+    this.hasIdentity()
+
+    return this.identityElement
+  }
 
   public constructor(codomain: FiniteSet<T>, relation: IMap<Tuple, T>) {
     super(codomain.directProduct(codomain), codomain, relation)
@@ -44,6 +53,48 @@ export class FiniteBinaryOperation<T extends IEquatable<T>> extends FiniteFuncti
     }
 
     return this.cayleyTable
+  }
+
+  public hasIdentity(): boolean {
+    if (!(FiniteBinaryOperationPropertyKeys.Idempotent in this.functionProperties)) {
+      const domainSize = this.codomain.cardinality()
+
+      for (let lhsIndex = 0; lhsIndex < domainSize; lhsIndex++) {
+        const lhs = this.codomain.element(lhsIndex)
+
+        let same = true
+
+        InnerLoop: for (let rhsIndex = 0; rhsIndex < domainSize; rhsIndex++) {
+          const rhs = this.codomain.element(rhsIndex)
+
+          const tuple1 = new Tuple(2, [lhs, rhs])
+          if (!rhs.isEqualTo(this.applyMap(tuple1))) {
+            same = false
+            break InnerLoop
+          }
+
+          const tuple2 = new Tuple(2, [rhs, lhs])
+          if (!rhs.isEqualTo(this.applyMap(tuple2))) {
+            same = false
+            break InnerLoop
+          }
+        }
+
+        if (same) {
+          // We found the identity element!
+
+          this.functionProperties[FiniteBinaryOperationPropertyKeys.Identity] = true
+          this.identityElement = lhs
+
+          return true
+        }
+      }
+
+      // There is no identity element for this operation
+      this.functionProperties[FiniteBinaryOperationPropertyKeys.Identity] = false
+    }
+
+    return this.functionProperties[FiniteBinaryOperationPropertyKeys.Identity]
   }
 
   /**
