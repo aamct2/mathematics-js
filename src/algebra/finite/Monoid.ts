@@ -33,7 +33,7 @@ export class FiniteMonoid<T extends IEquatable<T>> extends FiniteSemiGroup<T> {
     if (!testFunction.codomain.isEqualTo(codomain.set)) {
       throw new Error("The codomain of of the parameter `testFunction` is not the parameter `codomain`.")
     } else if (!testFunction.domain.isEqualTo(this.set)) {
-      throw new Error("The domain of of the parameter `testFunction` is not this group.")
+      throw new Error("The domain of of the parameter `testFunction` is not this monoid.")
     }
 
     // Check that f(a + b) = f(a) * f(b)
@@ -64,5 +64,27 @@ export class FiniteMonoid<T extends IEquatable<T>> extends FiniteSemiGroup<T> {
     }
 
     return true
+  }
+
+  /**
+   * Determines whether a function is a isomorphism from this monoid to another monoid. In other words, it's a bijective homomorphism.
+   * @param codomain The other monoid that serves as the codomain for the function.
+   * @param testFunction The function to test.
+   */
+  public isIsomorphism<G extends IEquatable<G>>(
+    codomain: FiniteMonoid<G>,
+    testFunction: FiniteFunction<T, G>
+  ): boolean {
+    if (!testFunction.codomain.isEqualTo(codomain.set)) {
+      throw new Error("The codomain of of the parameter `testFunction` is not the parameter `codomain`.")
+    } else if (!testFunction.domain.isEqualTo(this.set)) {
+      throw new Error("The domain of of the parameter `testFunction` is not this monoid.")
+    }
+
+    if (testFunction.isBijective() && this.isHomomorphism(codomain, testFunction)) {
+      return true
+    }
+
+    return false
   }
 }

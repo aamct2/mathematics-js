@@ -38,10 +38,16 @@ describe("FiniteMonoid", () => {
   describe("given (Zmod2, +)", () => {
     const Zmod2Monoid = new FiniteMonoid(Zmod2Set, Zmod2Addition)
 
-    test("The identity function is a homomorphism between (Zmod2, +) and itself", () => {
+    describe("given the identity function is a homomorphism between (Zmod2, +) and itself", () => {
       const identityFunction = new FiniteFunction(Zmod2Set, Zmod2Set, new IdentityMap<IntegerNumber>())
 
-      expect(Zmod2Monoid.isHomomorphism(Zmod2Monoid, identityFunction)).toBeTruthy()
+      test("it is a homomorphism", () => {
+        expect(Zmod2Monoid.isHomomorphism(Zmod2Monoid, identityFunction)).toBeTruthy()
+      })
+
+      test("it is an isomorphism", () => {
+        expect(Zmod2Monoid.isIsomorphism(Zmod2Monoid, identityFunction)).toBeTruthy()
+      })
     })
 
     test("The identity function is not a homomorphism between (Zmod2, +) and (Zmod2, *)", () => {
@@ -53,7 +59,7 @@ describe("FiniteMonoid", () => {
       expect(Zmod2Monoid.isHomomorphism(Zmod2MultiplicationMonoid, identityFunction)).toBeFalsy()
     })
 
-    test("(Zmod2, +) and ({-1, 1}, *) are homomorphic (and infact isomorphic)", () => {
+    describe("given a function between (Zmod2, +) and ({-1, 1}, *)", () => {
       class HomomorphismMap implements IMap<IntegerNumber, IntegerNumber> {
         public applyMap(input: IntegerNumber): IntegerNumber {
           if (input.value === 0) {
@@ -69,10 +75,16 @@ describe("FiniteMonoid", () => {
       const secondMonoid = new FiniteMonoid(secondSet, secondOperation)
       const homomorphism = new FiniteFunction(Zmod2Set, secondSet, new HomomorphismMap())
 
-      expect(Zmod2Monoid.isHomomorphism(secondMonoid, homomorphism)).toBeTruthy()
+      test("it is a homomorphism", () => {
+        expect(Zmod2Monoid.isHomomorphism(secondMonoid, homomorphism)).toBeTruthy()
+      })
+
+      test("it is an isomorphism", () => {
+        expect(Zmod2Monoid.isIsomorphism(secondMonoid, homomorphism)).toBeTruthy()
+      })
     })
 
-    test("(Zmod4, +) is homomorphic to (Zmod2, +)", () => {
+    describe("given a function between (Zmod4, +) and (Zmod2, +)", () => {
       // tslint:disable-next-line:max-classes-per-file
       class HomomorphismMap implements IMap<IntegerNumber, IntegerNumber> {
         public applyMap(input: IntegerNumber): IntegerNumber {
@@ -90,7 +102,13 @@ describe("FiniteMonoid", () => {
 
       const homomorphism = new FiniteFunction(Zmod4Set, Zmod2Set, new HomomorphismMap())
 
-      expect(Zmod4Monoid.isHomomorphism(Zmod2Monoid, homomorphism)).toBeTruthy()
+      test("it is a homomorphism", () => {
+        expect(Zmod4Monoid.isHomomorphism(Zmod2Monoid, homomorphism)).toBeTruthy()
+      })
+
+      test("it is a not an isomorphism", () => {
+        expect(Zmod4Monoid.isIsomorphism(Zmod2Monoid, homomorphism)).toBeFalsy()
+      })
     })
   })
 })
