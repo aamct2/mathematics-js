@@ -1,3 +1,4 @@
+import { LeftZeroNMap } from "../../../src/algebra/finite/examples/LeftZeroNMap"
 import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples/ZmodNAdditionMap"
 import { ZmodNMultiplicationMap } from "../../../src/algebra/finite/examples/ZmodNMultiplicationMap"
 import { FiniteBinaryOperation } from "../../../src/common/functions/FiniteBinaryOperation"
@@ -52,6 +53,14 @@ describe("FiniteBinaryOperation", () => {
 
       test("it is idempotent", () => {
         expect(Zmod2Multiplication.isIdempotent()).toBeTruthy()
+      })
+    })
+
+    describe("given the left zero semigroup LO_2", () => {
+      test("it does not have an identity", () => {
+        const leftZeroOperation = new FiniteBinaryOperation(Zmod2Set, new LeftZeroNMap())
+
+        expect(leftZeroOperation.hasIdentity()).toBeFalsy()
       })
     })
   })
