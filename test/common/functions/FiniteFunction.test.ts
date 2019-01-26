@@ -3,6 +3,7 @@ import { IncrementMap } from "../../../src/algebra/finite/examples/IncrementMap"
 import { FiniteFunction } from "../../../src/common/functions/FiniteFunction"
 import { IntegerNumber } from "../../../src/common/IntegerNumber"
 import { FiniteSet } from "../../../src/common/sets/FiniteSet"
+import { LeftZeroNMap } from "../../../src/algebra/finite/examples/LeftZeroNMap"
 
 describe("FiniteFunction", () => {
   describe("given Zmod2", () => {
@@ -36,10 +37,22 @@ describe("FiniteFunction", () => {
       expect(incrementFunction.isEqualTo(identityFunction)).toBeFalsy()
     })
 
-    test("the identity function is equal to itself", () => {
+    describe("given the identity function", () => {
       const identityFunction = new FiniteFunction(Zmod2Set, Zmod2Set, new IdentityMap<IntegerNumber>())
 
-      expect(identityFunction.isEqualTo(identityFunction)).toBeTruthy()
+      test("it is equal to itself", () => {
+        expect(identityFunction.isEqualTo(identityFunction)).toBeTruthy()
+      })
+
+      test("it is injective", () => {
+        expect(identityFunction.isInjective()).toBeTruthy()
+      })
+    })
+
+    test("the LO_2 function is not injective", () => {
+      const LO2Function = new FiniteFunction(Zmod2Set.directProduct(Zmod2Set), Zmod2Set, new LeftZeroNMap())
+
+      expect(LO2Function.isInjective()).toBeFalsy()
     })
   })
 })

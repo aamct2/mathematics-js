@@ -1,5 +1,9 @@
 import { FiniteSet } from "../sets/FiniteSet"
 
+enum FunctionPropertiesKeys {
+  Injective = "injective",
+}
+
 export class FiniteFunction<T extends IEquatable<T>, G extends IEquatable<G>>
   implements IEquatable<FiniteFunction<T, G>> {
   public readonly domain: FiniteSet<T>
@@ -51,5 +55,31 @@ export class FiniteFunction<T extends IEquatable<T>, G extends IEquatable<G>>
     }
 
     return true
+  }
+
+  /**
+   * Determines whether or not the function is injective (also known as one-to-one). It is injective if every element of the codomain is mapped to by at most one element of its domain.
+   */
+  public isInjective(): boolean {
+    if (!(FunctionPropertiesKeys.Injective in this.functionProperties)) {
+      const domainSize = this.domain.cardinality()
+
+      for (let lhsIndex = 0; lhsIndex < domainSize; lhsIndex++) {
+        const lhs = this.domain.element(lhsIndex)
+
+        for (let rhsIndex = 0; rhsIndex < domainSize; rhsIndex++) {
+          const rhs = this.domain.element(rhsIndex)
+
+          if (!lhs.isEqualTo(rhs) && this.applyMap(lhs).isEqualTo(this.applyMap(rhs))) {
+            this.functionProperties[FunctionPropertiesKeys.Injective] = false
+            return false
+          }
+        }
+      }
+
+      this.functionProperties[FunctionPropertiesKeys.Injective] = true
+    }
+
+    return this.functionProperties[FunctionPropertiesKeys.Injective]
   }
 }
