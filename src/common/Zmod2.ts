@@ -1,18 +1,18 @@
-import { RealNumber } from "./RealNumber"
+import { IntegerNumber } from "./IntegerNumber"
 
 export class Zmod2 implements IEquatable<Zmod2> {
-  private myValue: RealNumber
+  private myValue: IntegerNumber
 
-  public get value(): RealNumber {
+  public get value(): IntegerNumber {
     return this.myValue
   }
 
-  public set value(value: RealNumber) {
+  public set value(value: IntegerNumber) {
     this.myValue.value = value.value % 2
   }
 
-  public constructor(value: RealNumber = new RealNumber(0)) {
-    this.myValue = new RealNumber(value.value % 2)
+  public constructor(value: IntegerNumber = new IntegerNumber(0)) {
+    this.myValue = new IntegerNumber(value.value % 2)
   }
 
   public isEqualTo(rhs: Zmod2): boolean {

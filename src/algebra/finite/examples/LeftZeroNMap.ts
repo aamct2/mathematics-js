@@ -1,8 +1,8 @@
-import { RealNumber } from "../../../common/RealNumber"
+import { IntegerNumber } from "../../../common/IntegerNumber"
 import { Tuple } from "../../../common/sets/Tuple"
 
-export class LeftZeroNMap implements IMap<Tuple, RealNumber> {
-  public applyMap(input: Tuple): RealNumber {
+export class LeftZeroNMap implements IMap<Tuple, IntegerNumber> {
+  public applyMap(input: Tuple): IntegerNumber {
     if (input.elements[0].constructor === input.elements[1].constructor) {
       return input.elements[0]
     } else {
