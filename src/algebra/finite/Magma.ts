@@ -44,7 +44,7 @@ export class FiniteMagma<T extends IEquatable<T>> {
       const result = new FiniteSet<T>()
       for (let index = 0; index < this.set.cardinality(); index++) {
         const element = this.set.element(index)
-        const pair = new Tuple(2, [element, element])
+        const pair = new Tuple([element, element])
         result.addElement(this.applyOperation(pair))
       }
 

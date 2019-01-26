@@ -1,12 +1,8 @@
 export class Tuple implements IEquatable<Tuple> {
   public elements: any[]
 
-  public constructor(size: number = 2, elements: any[] = []) {
-    if (elements.length > 0) {
-      this.elements = elements
-    } else {
-      this.elements = new Array(size).fill("")
-    }
+  public constructor(elements: any[] = []) {
+    this.elements = elements
   }
 
   public get size(): number {

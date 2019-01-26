@@ -1,9 +1,9 @@
 import { IdentityMap } from "../../../src/algebra/finite/examples/IdentityMap"
 import { IncrementMap } from "../../../src/algebra/finite/examples/IncrementMap"
+import { LeftZeroNMap } from "../../../src/algebra/finite/examples/LeftZeroNMap"
 import { FiniteFunction } from "../../../src/common/functions/FiniteFunction"
 import { IntegerNumber } from "../../../src/common/IntegerNumber"
 import { FiniteSet } from "../../../src/common/sets/FiniteSet"
-import { LeftZeroNMap } from "../../../src/algebra/finite/examples/LeftZeroNMap"
 
 describe("FiniteFunction", () => {
   describe("given Zmod2", () => {
@@ -42,6 +42,12 @@ describe("FiniteFunction", () => {
 
       test("it is equal to itself", () => {
         expect(identityFunction.isEqualTo(identityFunction)).toBeTruthy()
+      })
+
+      test("it errors when using elements outside the domain", () => {
+        expect(() => {
+          identityFunction.applyMap(new IntegerNumber(3))
+        }).toThrow()
       })
 
       test("it is injective", () => {

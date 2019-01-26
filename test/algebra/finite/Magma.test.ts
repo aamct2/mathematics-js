@@ -27,7 +27,7 @@ describe("FiniteMagma", () => {
     const Zmod2Magma = new FiniteMagma(Zmod2Set, Zmod2Addition)
 
     test("using the convenience `applyOperation` passes through", () => {
-      const pair = new Tuple(2, [new IntegerNumber(1), new IntegerNumber(1)])
+      const pair = new Tuple([new IntegerNumber(1), new IntegerNumber(1)])
 
       expect(Zmod2Magma.applyOperation(pair).isEqualTo(new IntegerNumber(0))).toBeTruthy()
     })

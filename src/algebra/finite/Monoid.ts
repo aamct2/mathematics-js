@@ -44,12 +44,12 @@ export class FiniteMonoid<T extends IEquatable<T>> extends FiniteSemiGroup<T> {
       for (let indexB = 0; indexB < domainSize; indexB++) {
         const elementB = this.set.element(indexB)
 
-        const lhsTuple = new Tuple(2, [elementA, elementB])
+        const lhsTuple = new Tuple([elementA, elementB])
         const lhs = testFunction.applyMap(this.applyOperation(lhsTuple))
 
         const rhsTuple1 = testFunction.applyMap(elementA)
         const rhsTuple2 = testFunction.applyMap(elementB)
-        const rhsTuple = new Tuple(2, [rhsTuple1, rhsTuple2])
+        const rhsTuple = new Tuple([rhsTuple1, rhsTuple2])
         const rhs = codomain.applyOperation(rhsTuple)
 
         if (!lhs.isEqualTo(rhs)) {

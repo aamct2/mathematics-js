@@ -61,7 +61,7 @@ export class FiniteSet<T extends IEquatable<T>> implements IEquatable<FiniteSet<
       for (let rhsIndex = 0; rhsIndex < rhs.cardinality(); rhsIndex++) {
         const rhsElement = rhs.element(rhsIndex)
 
-        const pair = new Tuple(2, [lhsElement, rhsElement])
+        const pair = new Tuple([lhsElement, rhsElement])
 
         newSet.addElementWithoutCheck(pair)
       }

@@ -41,7 +41,7 @@ export class FiniteBinaryOperation<T extends IEquatable<T>> extends FiniteFuncti
 
         for (let columnIndex = 1; columnIndex < domainSize + 1; columnIndex++) {
           const secondElement = this.codomain.element(columnIndex - 1)
-          const tuple = new Tuple(2, [firstElement, secondElement])
+          const tuple = new Tuple([firstElement, secondElement])
           const cayleyElement = this.applyMap(tuple)
 
           cayleyTable[rowIndex][columnIndex] = this.codomain.indexOf(cayleyElement) + 1
@@ -67,13 +67,13 @@ export class FiniteBinaryOperation<T extends IEquatable<T>> extends FiniteFuncti
         InnerLoop: for (let rhsIndex = 0; rhsIndex < domainSize; rhsIndex++) {
           const rhs = this.codomain.element(rhsIndex)
 
-          const tuple1 = new Tuple(2, [lhs, rhs])
+          const tuple1 = new Tuple([lhs, rhs])
           if (!rhs.isEqualTo(this.applyMap(tuple1))) {
             same = false
             break InnerLoop
           }
 
-          const tuple2 = new Tuple(2, [rhs, lhs])
+          const tuple2 = new Tuple([rhs, lhs])
           if (!rhs.isEqualTo(this.applyMap(tuple2))) {
             same = false
             break InnerLoop
@@ -179,8 +179,8 @@ export class FiniteBinaryOperation<T extends IEquatable<T>> extends FiniteFuncti
         for (let index2 = 0; index2 < domainSize; index2++) {
           const element2 = this.codomain.element(index2)
 
-          const tuple1 = new Tuple(2, [element1, element2])
-          const tuple2 = new Tuple(2, [element2, element1])
+          const tuple1 = new Tuple([element1, element2])
+          const tuple2 = new Tuple([element2, element1])
 
           const lhs = this.applyMap(tuple1)
           const rhs = this.applyMap(tuple2)
@@ -205,7 +205,7 @@ export class FiniteBinaryOperation<T extends IEquatable<T>> extends FiniteFuncti
     if (!(FiniteBinaryOperationPropertyKeys.Idempotent in this.functionProperties)) {
       for (let index = 0; index < this.codomain.cardinality(); index++) {
         const element = this.codomain.element(index)
-        const tuple = new Tuple(2, [element, element])
+        const tuple = new Tuple([element, element])
 
         if (this.applyMap(tuple).isEqualTo(element) === false) {
           this.functionProperties[FiniteBinaryOperationPropertyKeys.Idempotent] = false
