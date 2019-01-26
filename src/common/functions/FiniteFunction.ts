@@ -1,6 +1,7 @@
 import { FiniteSet } from "../sets/FiniteSet"
 
 enum FunctionPropertiesKeys {
+  Bijective = "bijective",
   Injective = "injective",
   Surjective = "surjective",
 }
@@ -40,6 +41,24 @@ export class FiniteFunction<T extends IEquatable<T>, G extends IEquatable<G>>
     // The relation is checked to be well-defined when `relation` is set.
 
     return this.relation.applyMap(input)
+  }
+
+  /**
+   * Determines whether or not the function is bijective. In other words, it is both injective and surjective.
+   */
+  public isBijective(): boolean {
+    if (!(FunctionPropertiesKeys.Bijective in this.functionProperties)) {
+      let result: boolean
+      if (this.isInjective() && this.isSurjective()) {
+        result = true
+      } else {
+        result = false
+      }
+
+      this.functionProperties[FunctionPropertiesKeys.Bijective] = result
+    }
+
+    return this.functionProperties[FunctionPropertiesKeys.Bijective]
   }
 
   public isEqualTo(rhs: FiniteFunction<T, G>): boolean {

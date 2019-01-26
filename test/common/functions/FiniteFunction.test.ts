@@ -51,17 +51,25 @@ describe("FiniteFunction", () => {
       test("it is surjective", () => {
         expect(identityFunction.isSurjective).toBeTruthy()
       })
+
+      test("it is bijective", () => {
+        expect(identityFunction.isBijective()).toBeTruthy()
+      })
     })
 
     describe("given the LO_2 function", () => {
       const LO2Function = new FiniteFunction(Zmod2Set.directProduct(Zmod2Set), Zmod2Set, new LeftZeroNMap())
 
-      test("the LO_2 function is not injective", () => {
+      test("it is not injective", () => {
         expect(LO2Function.isInjective()).toBeFalsy()
       })
 
-      test("the LO_2 function is surjective", () => {
+      test("it is surjective", () => {
         expect(LO2Function.isSurjective()).toBeTruthy()
+      })
+
+      test("it is not bijective", () => {
+        expect(LO2Function.isBijective()).toBeFalsy()
       })
     })
 
@@ -75,6 +83,10 @@ describe("FiniteFunction", () => {
 
       test("it is not surjective", () => {
         expect(incrementFunction.isSurjective()).toBeFalsy()
+      })
+
+      test("it is not bijective", () => {
+        expect(incrementFunction.isBijective()).toBeFalsy()
       })
     })
   })
