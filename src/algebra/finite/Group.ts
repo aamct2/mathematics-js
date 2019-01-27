@@ -15,7 +15,7 @@ enum FiniteGroupPropertiesKeys {
   TStarGroup = "t*-group",
 }
 
-export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> {
+export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implements IEquatable<FiniteGroup<T>> {
   /**
    * Returns the order of the group (i.e. the group's set's cardinality).
    */
@@ -76,6 +76,19 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> {
     }
 
     return result
+  }
+
+  /**
+   * Returns the center of the group as a group. (In fact, this group is always abelian.)
+   */
+  public centerGroup(): FiniteGroup<T> {
+    const newSet = this.center()
+    const newOperation = this.operation.restriction(newSet)
+
+    const knownProperties = this.subgroupClosedProperties()
+    knownProperties[FiniteGroupPropertiesKeys.Abelian] = true
+
+    return FiniteGroup.KnownFiniteGroup(newSet, newOperation, knownProperties)
   }
 
   /**
@@ -160,6 +173,14 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> {
     }
 
     return this.groupProperties[FiniteGroupPropertiesKeys.Abelian]
+  }
+
+  /**
+   * Determines if this group is equal to a given group.
+   * @param rhs Other group to which to compare equality.
+   */
+  public isEqualTo(rhs: FiniteGroup<T>): boolean {
+    return this.set.isEqualTo(rhs.set) && this.operation.isEqualTo(rhs.operation)
   }
 
   /**

@@ -40,6 +40,7 @@ describe("FiniteGroup", () => {
 
     it("has a center that is the same as the whole group", () => {
       expect(Zmod2Group.center().isEqualTo(Zmod2Group.set)).toBeTruthy()
+      expect(Zmod2Group.centerGroup().isEqualTo(Zmod2Group)).toBeTruthy()
     })
 
     it("has a trivial subgroup of ({0}, +)", () => {
