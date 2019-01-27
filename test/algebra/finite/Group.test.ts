@@ -76,6 +76,19 @@ describe("FiniteGroup", () => {
 
       expect(dihedral8Group.centralizerOfElement(matrix).isEqualTo(expected)).toBeTruthy()
     })
+
+    test("the center is {identity, 180º rotation}", () => {
+      const expected = new FiniteSet([0, 0.5].map(angle => rotationMatrix(angle * 2 * Math.PI)))
+
+      expect(dihedral8Group.center().isEqualTo(expected)).toBeTruthy()
+    })
+
+    test("the center is the same as the centralizer of the whole group", () => {
+      const center = dihedral8Group.center()
+      const centralizer = dihedral8Group.centralizer(dihedral8Group.set)
+
+      expect(center.isEqualTo(centralizer)).toBeTruthy()
+    })
   })
 
   describe("group errors", () => {
