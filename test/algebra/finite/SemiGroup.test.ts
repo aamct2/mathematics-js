@@ -1,4 +1,4 @@
-import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples/ZmodNAdditionMap"
+import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples/maps/ZmodNAdditionMap"
 import { ZmodNMultiplicationMap } from "../../../src/algebra/finite/examples/ZmodNMultiplicationMap"
 import { FiniteSemiGroup } from "../../../src/algebra/finite/SemiGroup"
 import { FiniteBinaryOperation } from "../../../src/common/functions/FiniteBinaryOperation"

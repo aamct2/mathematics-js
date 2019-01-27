@@ -1,5 +1,5 @@
-import { IntegerNumber } from "../../../common/IntegerNumber"
-import { Tuple } from "../../../common/sets/Tuple"
+import { IntegerNumber } from "../../../../common/IntegerNumber"
+import { Tuple } from "../../../../common/sets/Tuple"
 
 export class ZmodNAdditionMap implements IMap<Tuple, IntegerNumber> {
   public readonly dimension: IntegerNumber

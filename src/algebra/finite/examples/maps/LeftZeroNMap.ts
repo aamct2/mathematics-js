@@ -1,5 +1,5 @@
-import { IntegerNumber } from "../../../common/IntegerNumber"
-import { Tuple } from "../../../common/sets/Tuple"
+import { IntegerNumber } from "../../../../common/IntegerNumber"
+import { Tuple } from "../../../../common/sets/Tuple"
 
 export class LeftZeroNMap implements IMap<Tuple, IntegerNumber> {
   public applyMap(input: Tuple): IntegerNumber {

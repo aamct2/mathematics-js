@@ -1,4 +1,4 @@
-import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples/ZmodNAdditionMap"
+import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples/maps/ZmodNAdditionMap"
 import { FiniteMagma } from "../../../src/algebra/finite/Magma"
 import { FiniteBinaryOperation } from "../../../src/common/functions/FiniteBinaryOperation"
 import { IntegerNumber } from "../../../src/common/IntegerNumber"

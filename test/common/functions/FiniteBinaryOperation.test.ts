@@ -1,5 +1,5 @@
-import { LeftZeroNMap } from "../../../src/algebra/finite/examples/LeftZeroNMap"
-import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples/ZmodNAdditionMap"
+import { LeftZeroNMap } from "../../../src/algebra/finite/examples/maps/LeftZeroNMap"
+import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples/maps/ZmodNAdditionMap"
 import { ZmodNMultiplicationMap } from "../../../src/algebra/finite/examples/ZmodNMultiplicationMap"
 import { FiniteBinaryOperation } from "../../../src/common/functions/FiniteBinaryOperation"
 import { IntegerNumber } from "../../../src/common/IntegerNumber"
