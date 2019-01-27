@@ -33,9 +33,31 @@ describe("Matrix", () => {
       matrix.setItem(1, 1, new RealNumber(5.5))
       expect(matrix.item(1, 1).value).toBe(5.5)
     })
+
+    it("is not equal to a 2x2 matrix", () => {
+      const matrix2 = new Matrix(2, 2, RealNumber)
+
+      expect(matrix.isEqualTo(matrix2)).toBeFalsy()
+    })
   })
 
-  test("matrix multiplication", () => {
+  describe("constructor errors", () => {
+    test("invalid height", () => {
+      expect(() => {
+        // tslint:disable-next-line:no-unused-expression
+        new Matrix(0, 2, RealNumber)
+      }).toThrow()
+    })
+
+    test("invalid width", () => {
+      expect(() => {
+        // tslint:disable-next-line:no-unused-expression
+        new Matrix(2, 0, RealNumber)
+      }).toThrow()
+    })
+  })
+
+  describe("matrix multiplication", () => {
     const lhs = new Matrix(2, 3, RealNumber)
     lhs.setItem(0, 0, new RealNumber(1))
     lhs.setItem(0, 1, new RealNumber(0))
@@ -52,12 +74,22 @@ describe("Matrix", () => {
     rhs.setItem(2, 0, new RealNumber(1))
     rhs.setItem(2, 1, new RealNumber(0))
 
-    const expectedMatrix = new Matrix(2, 2, RealNumber)
-    expectedMatrix.setItem(0, 0, new RealNumber(5))
-    expectedMatrix.setItem(0, 1, new RealNumber(1))
-    expectedMatrix.setItem(1, 0, new RealNumber(4))
-    expectedMatrix.setItem(1, 1, new RealNumber(2))
+    test("valid multiplication", () => {
+      const expectedMatrix = new Matrix(2, 2, RealNumber)
+      expectedMatrix.setItem(0, 0, new RealNumber(5))
+      expectedMatrix.setItem(0, 1, new RealNumber(1))
+      expectedMatrix.setItem(1, 0, new RealNumber(4))
+      expectedMatrix.setItem(1, 1, new RealNumber(2))
 
-    expect(lhs.multiply(rhs).isEqualTo(expectedMatrix)).toBeTruthy()
+      expect(lhs.multiply(rhs).isEqualTo(expectedMatrix)).toBeTruthy()
+    })
+
+    test("invalid multiplication", () => {
+      const incorrectSizedMatrix = new Matrix(2, 2, RealNumber)
+
+      expect(() => {
+        lhs.multiply(incorrectSizedMatrix)
+      }).toThrow()
+    })
   })
 })
