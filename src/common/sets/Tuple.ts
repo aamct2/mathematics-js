@@ -1,3 +1,6 @@
+/**
+ * An ordered collection of elements (not neccessarily of the same type).
+ */
 export class Tuple implements IEquatable<Tuple> {
   public elements: any[]
 
