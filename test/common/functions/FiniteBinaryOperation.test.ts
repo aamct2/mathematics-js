@@ -27,6 +27,10 @@ describe("FiniteBinaryOperation", () => {
         expect(Zmod2Addition.hasIdentity()).toBeTruthy()
       })
 
+      test("it has inverses", () => {
+        expect(Zmod2Addition.hasInverses()).toBeTruthy()
+      })
+
       test("it's identity element is 0", () => {
         const identity = Zmod2Addition.identity
         expect(identity).toBeDefined()
@@ -43,6 +47,10 @@ describe("FiniteBinaryOperation", () => {
 
       test("it has an identity element", () => {
         expect(Zmod2Multiplication.hasIdentity()).toBeTruthy()
+      })
+
+      test("it does not have inverses", () => {
+        expect(Zmod2Multiplication.hasInverses()).toBeFalsy()
       })
 
       test("it's identity element is 1", () => {
@@ -74,6 +82,10 @@ describe("FiniteBinaryOperation", () => {
       test("Zmod3 addition is associative", () => {
         expect(Zmod3Addition.isAssociative()).toBeTruthy()
       })
+
+      test("it does have inverses", () => {
+        expect(Zmod3Addition.hasInverses()).toBeTruthy()
+      })
     })
 
     describe("given Zmod3 multiplication", () => {
@@ -81,6 +93,10 @@ describe("FiniteBinaryOperation", () => {
 
       test("Zmod3 multiplication is not idempotent", () => {
         expect(Zmod3Multiplication.isIdempotent()).toBeFalsy()
+      })
+
+      test("it does not have inverses", () => {
+        expect(Zmod3Multiplication.hasInverses()).toBeFalsy()
       })
     })
   })

@@ -43,6 +43,14 @@ export class FiniteSet<T extends IEquatable<T>> implements IEquatable<FiniteSet<
   }
 
   /**
+   * Deletes an elements from this set.
+   * @param index Index of element to remove.
+   */
+  public deleteElement(index: number) {
+    this.elements.splice(index, 1)
+  }
+
+  /**
    * Returns the direct product (also known as the cartesian product) of this set with another set.
    * @param rhs The second set.
    */
@@ -106,6 +114,10 @@ export class FiniteSet<T extends IEquatable<T>> implements IEquatable<FiniteSet<
     return true
   }
 
+  /**
+   * Returns in the index of a given element in the set.
+   * @param element The index of the given element, or -1 if it is not found.
+   */
   public indexOf(element: T): number {
     for (let index = 0; index < this.elements.length; index++) {
       const item = this.elements[index]

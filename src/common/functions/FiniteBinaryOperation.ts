@@ -1,3 +1,4 @@
+import * as _ from "lodash"
 import { SquareMatrix } from "../../algebra/SquareMatrix"
 import { RealNumber } from "../RealNumber"
 import { FiniteSet } from "../sets/FiniteSet"
@@ -10,6 +11,7 @@ enum FiniteBinaryOperationPropertyKeys {
   Commutivity = "commutivity",
   Idempotent = "idempotent",
   Identity = "identity",
+  Inverses = "inverses",
 }
 
 export class FiniteBinaryOperation<T extends IEquatable<T>> extends FiniteFunction<Tuple, T> {
@@ -95,6 +97,68 @@ export class FiniteBinaryOperation<T extends IEquatable<T>> extends FiniteFuncti
     }
 
     return this.functionProperties[FiniteBinaryOperationPropertyKeys.Identity]
+  }
+
+  /**
+   * Determines if the operation has inverses for all elements in the domain. In other words there exists an `i` such that for all `a`, `a + i = i + a = e`.
+   */
+  public hasInverses(): boolean {
+    if (!(FiniteBinaryOperationPropertyKeys.Inverses in this.functionProperties)) {
+      // First check to see if there's an identity element
+      if (!this.hasIdentity()) {
+        this.functionProperties[FiniteBinaryOperationPropertyKeys.Inverses] = false
+        return false
+      }
+
+      const testSet = _.cloneDeep(this.codomain)
+      const identityElement: T = this.identityElement!
+
+      // The identity element is its own inverse, so we don't need to check it
+      testSet.deleteElement(testSet.indexOf(identityElement))
+
+      while (testSet.cardinality() > 0) {
+        const firstElement = testSet.element(0)
+        let same = true
+        let index = 0
+
+        InnerLoop: for (index = 0; index < testSet.cardinality(); index++) {
+          const testElement = testSet.element(index)
+          same = true
+
+          const tuple1 = new Tuple([firstElement, testElement])
+          if (!identityElement.isEqualTo(this.applyMap(tuple1))) {
+            same = false
+          }
+
+          const tuple2 = new Tuple([testElement, firstElement])
+          if (same && !identityElement.isEqualTo(this.applyMap(tuple2))) {
+            same = false
+          }
+
+          if (same) {
+            break InnerLoop
+          }
+        }
+
+        if (!same) {
+          this.functionProperties[FiniteBinaryOperationPropertyKeys.Inverses] = false
+          return false
+        } else {
+          // We found a pair, so remove them and keep on chugging
+          if (index === 0) {
+            // It is its own inverse
+            testSet.deleteElement(0)
+          } else {
+            testSet.deleteElement(index)
+            testSet.deleteElement(0)
+          }
+        }
+      }
+
+      this.functionProperties[FiniteBinaryOperationPropertyKeys.Inverses] = true
+    }
+
+    return this.functionProperties[FiniteBinaryOperationPropertyKeys.Inverses]
   }
 
   /**
