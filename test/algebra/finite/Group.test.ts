@@ -93,6 +93,13 @@ describe("FiniteGroup", () => {
 
   describe("group errors", () => {
     const Zmod2Group = new FiniteGroup(Zmod2Set, Zmod2Addition)
+    const Zmod3Set = new FiniteSet<IntegerNumber>([0, 1, 2].map(x => new IntegerNumber(x)))
+
+    test("the centralizer of a set that is not a subset throws an error", () => {
+      expect(() => {
+        Zmod2Group.centralizer(Zmod3Set)
+      }).toThrow()
+    })
 
     test("the centralizer of an element not in the group throws an error", () => {
       expect(() => {
