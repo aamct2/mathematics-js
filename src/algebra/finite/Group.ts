@@ -126,6 +126,9 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> {
     return this.applyOperation(tuple3)
   }
 
+  /**
+   * Determines whether this group is abelian. In other words, if its operation is commutative.
+   */
   public isAbelian(): boolean {
     if (!(FiniteGroupPropertiesKeys.Abelian in this.groupProperties)) {
       this.groupProperties[FiniteGroupPropertiesKeys.Abelian] = this.operation.isCommutative()
