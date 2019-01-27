@@ -130,6 +130,27 @@ export class FiniteSet<T extends IEquatable<T>> implements IEquatable<FiniteSet<
     return -1
   }
 
+  /**
+   * The subset of elements which exist both in this set and another.
+   * @param rhs The other set with which to intersect.
+   */
+  public intersection(rhs: FiniteSet<T>): FiniteSet<T> {
+    // Don't waste time cranking the intersection if one of the sets is the null set
+    if (this.cardinality() === 0 || rhs.cardinality() === 0) {
+      return this.NullSet()
+    }
+
+    const result = new FiniteSet<T>()
+
+    this.elements.forEach(element => {
+      if (rhs.indexOf(element) > -1) {
+        result.addElement(element)
+      }
+    })
+
+    return result
+  }
+
   public NullSet(): FiniteSet<T> {
     return new FiniteSet<T>()
   }

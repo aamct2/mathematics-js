@@ -91,5 +91,18 @@ describe("FiniteSets", () => {
     test("can be written as {1, 2, 3} [toString]", () => {
       expect(numberSet.toString()).toBe("{1, 2, 3}")
     })
+
+    test("the intersection with {2, 4} is {2}", () => {
+      const rhs = new FiniteSet<RealNumber>([2, 4].map(x => new RealNumber(x)))
+      const expectedSet = new FiniteSet([new RealNumber(2)])
+
+      expect(numberSet.intersection(rhs).isEqualTo(expectedSet)).toBeTruthy()
+    })
+
+    test("the intersection with the empty set is the empty set", () => {
+      const rhs = numberSet.NullSet()
+
+      expect(numberSet.intersection(rhs).isEqualTo(rhs)).toBeTruthy()
+    })
   })
 })
