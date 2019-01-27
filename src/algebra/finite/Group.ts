@@ -6,9 +6,41 @@ import { FiniteMonoid } from "./Monoid"
 
 enum FiniteGroupPropertiesKeys {
   Abelian = "abelian",
+  Cyclic = "cyclic",
+  Dedekind = "dedekind",
+  Metabelian = "metabelian",
+  Metanilpotent = "metanilpotent",
+  Nilpotent = "nilpotent",
+  Solvable = "solvable",
+  TStarGroup = "t*-group",
 }
 
 export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> {
+  /**
+   * Returns the order of the group (i.e. the group's set's cardinality).
+   */
+  public get order(): number {
+    return this.set.cardinality()
+  }
+
+  /**
+   * Constructors a new `FiniteGroup` and injects into it known properties.
+   * @param set The set of the new group.
+   * @param operation The operation of the new group.
+   * @param knownProperties The known properties of the new group.
+   */
+  private static KnownFiniteGroup<G extends IEquatable<G>>(
+    set: FiniteSet<G>,
+    operation: FiniteBinaryOperation<G>,
+    knownProperties: { [key: string]: boolean }
+  ): FiniteGroup<G> {
+    const newGroup = new FiniteGroup(set, operation)
+
+    newGroup.groupProperties = knownProperties
+
+    return newGroup
+  }
+
   private groupProperties: { [key: string]: boolean } = {}
 
   public constructor(set: FiniteSet<T>, operation: FiniteBinaryOperation<T>) {
@@ -17,13 +49,6 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> {
     if (!operation.hasInverses()) {
       throw new DoesNotSatisfyPropertyError("The new operation does not have inverses for every element.")
     }
-  }
-
-  /**
-   * Returns the order of the group (i.e. the group's set's cardinality).
-   */
-  public get order(): number {
-    return this.set.cardinality()
   }
 
   /**
@@ -135,5 +160,49 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> {
     }
 
     return this.groupProperties[FiniteGroupPropertiesKeys.Abelian]
+  }
+
+  /**
+   * Returns the trivial subgroup of this group.
+   */
+  public trivialSubgroup(): FiniteGroup<T> {
+    const newSet = new FiniteSet<T>()
+    newSet.addElement(this.identity)
+
+    const newOperation = this.operation.restriction(newSet)
+
+    return FiniteGroup.KnownFiniteGroup(newSet, newOperation, this.subgroupClosedProperties())
+  }
+
+  /**
+   * Returns a dictionary of all the properties known about this group that are inherited by any subgroup.
+   */
+  private subgroupClosedProperties(): { [key: string]: boolean } {
+    const result: { [key: string]: boolean } = {}
+
+    function checkAndAddProperty(property: string, containingGroup: FiniteGroup<T>) {
+      if (property in containingGroup.groupProperties) {
+        if (containingGroup.groupProperties[property]) {
+          result[property] = true
+        }
+      }
+    }
+
+    const stableProperties = [
+      FiniteGroupPropertiesKeys.Abelian,
+      FiniteGroupPropertiesKeys.Cyclic,
+      FiniteGroupPropertiesKeys.Dedekind,
+      FiniteGroupPropertiesKeys.Metabelian,
+      FiniteGroupPropertiesKeys.Metanilpotent,
+      FiniteGroupPropertiesKeys.Nilpotent,
+      FiniteGroupPropertiesKeys.Solvable,
+      FiniteGroupPropertiesKeys.TStarGroup,
+    ]
+
+    stableProperties.forEach(property => {
+      checkAndAddProperty(property, this)
+    })
+
+    return result
   }
 }

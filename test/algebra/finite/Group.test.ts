@@ -41,6 +41,13 @@ describe("FiniteGroup", () => {
     it("has a center that is the same as the whole group", () => {
       expect(Zmod2Group.center().isEqualTo(Zmod2Group.set)).toBeTruthy()
     })
+
+    it("has a trivial subgroup of ({0}, +)", () => {
+      const trivialSubgroup = Zmod2Group.trivialSubgroup()
+
+      expect(trivialSubgroup.order).toBe(1)
+      expect(trivialSubgroup.set.element(0).isEqualTo(new IntegerNumber(0))).toBeTruthy()
+    })
   })
 
   describe("given the Dihedral 8 group", () => {
@@ -89,6 +96,13 @@ describe("FiniteGroup", () => {
 
       expect(center.isEqualTo(centralizer)).toBeTruthy()
     })
+  })
+
+  test("the trivial subgroup of a known abelian group is abelian", () => {
+    const Zmod2Group = new FiniteGroup(Zmod2Set, Zmod2Addition)
+
+    expect(Zmod2Group.isAbelian()).toBeTruthy()
+    expect(Zmod2Group.trivialSubgroup().isAbelian()).toBeTruthy()
   })
 
   describe("group errors", () => {

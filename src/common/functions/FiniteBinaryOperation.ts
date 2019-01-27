@@ -3,7 +3,7 @@ import { SquareMatrix } from "../../algebra/SquareMatrix"
 import { RealNumber } from "../RealNumber"
 import { FiniteSet } from "../sets/FiniteSet"
 import { Tuple } from "../sets/Tuple"
-import { FiniteFunction } from "./FiniteFunction"
+import { FiniteFunction, FunctionPropertiesKeys } from "./FiniteFunction"
 
 enum FiniteBinaryOperationPropertyKeys {
   Associativity = "associativity",
@@ -306,5 +306,53 @@ export class FiniteBinaryOperation<T extends IEquatable<T>> extends FiniteFuncti
     }
 
     return this.functionProperties[FiniteBinaryOperationPropertyKeys.Idempotent]
+  }
+
+  /**
+   * Returns the restriction of this operation.
+   * @param newCodomain The codomain of the new restricted operation. Note that it must be a subset of this operation's codomain.
+   */
+  public restriction(newCodomain: FiniteSet<T>): FiniteBinaryOperation<T> {
+    if (!newCodomain.isSubsetOf(this.codomain)) {
+      throw new Error("The `newCodomain` is not a subset of this operation's Codomain.")
+    }
+
+    const newOperation = new FiniteBinaryOperation(newCodomain, this.relation)
+
+    function checkAndAddProperty(property: string, containingOperation: FiniteBinaryOperation<T>) {
+      if (property in containingOperation.functionProperties) {
+        if (containingOperation.functionProperties[property]) {
+          newOperation.functionProperties[property] = true
+        }
+      }
+    }
+
+    // Restriction of a injective function is still injective
+    checkAndAddProperty(FunctionPropertiesKeys.Injective, this)
+
+    // Restriction of an associative operation is still associative
+    checkAndAddProperty(FiniteBinaryOperationPropertyKeys.Associativity, this)
+
+    // Restriction of an commutative operation is still commutative
+    checkAndAddProperty(FiniteBinaryOperationPropertyKeys.Commutivity, this)
+
+    // Restriction of an idempotent operation is still idempotent
+    checkAndAddProperty(FiniteBinaryOperationPropertyKeys.Idempotent, this)
+
+    // Check to see if it has an identity
+    if (FiniteBinaryOperationPropertyKeys.Identity in this.functionProperties) {
+      if (this.functionProperties[FiniteBinaryOperationPropertyKeys.Identity]) {
+        const identityElement: T = this.identityElement!
+
+        if (newCodomain.contains(identityElement)) {
+          newOperation.identityElement = identityElement
+          newOperation.functionProperties[FiniteBinaryOperationPropertyKeys.Identity] = true
+        } else {
+          newOperation.functionProperties[FiniteBinaryOperationPropertyKeys.Identity] = false
+        }
+      }
+    }
+
+    return newOperation
   }
 }

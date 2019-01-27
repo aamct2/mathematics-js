@@ -1,6 +1,6 @@
 import { FiniteSet } from "../sets/FiniteSet"
 
-enum FunctionPropertiesKeys {
+export enum FunctionPropertiesKeys {
   Bijective = "bijective",
   Injective = "injective",
   Surjective = "surjective",
