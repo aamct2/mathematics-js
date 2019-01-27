@@ -110,5 +110,68 @@ describe("FiniteMonoid", () => {
         expect(Zmod4Monoid.isIsomorphism(Zmod2Monoid, homomorphism)).toBeFalsy()
       })
     })
+
+    describe("homomorphism errors", () => {
+      const Zmod4Set = new FiniteSet<IntegerNumber>([0, 1, 2, 3].map(x => new IntegerNumber(x)))
+      const Zmod4Addition = new FiniteBinaryOperation(Zmod4Set, new ZmodNAdditionMap(new IntegerNumber(4)))
+      const Zmod4Monoid = new FiniteMonoid(Zmod4Set, Zmod4Addition)
+
+      const identityFunctionZmod2 = new FiniteFunction(Zmod2Set, Zmod2Set, new IdentityMap<IntegerNumber>())
+
+      test("invalid codomain", () => {
+        expect(() => {
+          Zmod2Monoid.isHomomorphism(Zmod4Monoid, identityFunctionZmod2)
+        }).toThrow()
+      })
+
+      test("invalid domain", () => {
+        expect(() => {
+          Zmod4Monoid.isHomomorphism(Zmod2Monoid, identityFunctionZmod2)
+        }).toThrow()
+      })
+
+      test("semigroup homomorphism that does not preserve the identity", () => {
+        const Zmod1Set = new FiniteSet<IntegerNumber>([0].map(x => new IntegerNumber(x)))
+        const Zmod1Addition = new FiniteBinaryOperation(Zmod1Set, new ZmodNAdditionMap(new IntegerNumber(1)))
+        const Zmod1Monoid = new FiniteMonoid(Zmod1Set, Zmod1Addition)
+
+        const Zmod2Multiplication = new FiniteBinaryOperation(
+          Zmod2Set,
+          new ZmodNMultiplicationMap(new IntegerNumber(2))
+        )
+        const Zmod2MultiplicationMonoid = new FiniteMonoid(Zmod2Set, Zmod2Multiplication)
+
+        // tslint:disable-next-line:max-classes-per-file
+        class SemigroupHomomorphismMap implements IMap<IntegerNumber, IntegerNumber> {
+          public applyMap(input: IntegerNumber): IntegerNumber {
+            return new IntegerNumber(0)
+          }
+        }
+
+        const semigroupHomomorphism = new FiniteFunction(Zmod1Set, Zmod2Set, new SemigroupHomomorphismMap())
+
+        expect(Zmod1Monoid.isHomomorphism(Zmod2MultiplicationMonoid, semigroupHomomorphism)).toBeFalsy()
+      })
+    })
+
+    describe("isomorphism errors", () => {
+      const Zmod4Set = new FiniteSet<IntegerNumber>([0, 1, 2, 3].map(x => new IntegerNumber(x)))
+      const Zmod4Addition = new FiniteBinaryOperation(Zmod4Set, new ZmodNAdditionMap(new IntegerNumber(4)))
+      const Zmod4Monoid = new FiniteMonoid(Zmod4Set, Zmod4Addition)
+
+      const identityFunctionZmod2 = new FiniteFunction(Zmod2Set, Zmod2Set, new IdentityMap<IntegerNumber>())
+
+      test("invalid codomain", () => {
+        expect(() => {
+          Zmod2Monoid.isIsomorphism(Zmod4Monoid, identityFunctionZmod2)
+        }).toThrow()
+      })
+
+      test("invalid domain", () => {
+        expect(() => {
+          Zmod4Monoid.isIsomorphism(Zmod2Monoid, identityFunctionZmod2)
+        }).toThrow()
+      })
+    })
   })
 })
