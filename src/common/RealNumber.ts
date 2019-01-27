@@ -1,16 +1,21 @@
-export class RealNumber implements IComparable<RealNumber>, IEquatable<RealNumber>, ISubtractable<RealNumber> {
+export class RealNumber
+  implements IComparable<RealNumber>, IEquatable<RealNumber>, ISubtractable<RealNumber>, IDivideable<RealNumber> {
   public value: number
 
   public constructor(value: number = 0) {
     this.value = value
   }
 
-  public add(rhs: RealNumber): RealNumber {
-    return new RealNumber(this.value + rhs.value)
-  }
-
   public get additiveIdentity(): RealNumber {
     return new RealNumber()
+  }
+
+  public get multiplicativeIdentity(): RealNumber {
+    return new RealNumber(1)
+  }
+
+  public add(rhs: RealNumber): RealNumber {
+    return new RealNumber(this.value + rhs.value)
   }
 
   public compareTo(rhs: RealNumber): number {
@@ -23,8 +28,16 @@ export class RealNumber implements IComparable<RealNumber>, IEquatable<RealNumbe
     return 1
   }
 
+  public divide(rhs: RealNumber): RealNumber {
+    return new RealNumber(this.value / rhs.value)
+  }
+
   public isEqualTo(rhs: RealNumber): boolean {
     return this.value === rhs.value
+  }
+
+  public multiply(rhs: RealNumber): RealNumber {
+    return new RealNumber(this.value * rhs.value)
   }
 
   public subtract(rhs: RealNumber): RealNumber {

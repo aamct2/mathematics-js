@@ -5,7 +5,9 @@ import { RealNumber } from "../common/RealNumber"
  *
  * @template T The `type` of elements used for entries in the matrix.
  */
-export class Matrix<T extends IComparable<T> & ISubtractable<T>> implements IEquatable<Matrix<T>> {
+export class Matrix<T extends IComparable<T> & ISubtractable<T> & IDivideable<T>>
+  implements IEquatable<Matrix<T>>, IMultipliable<Matrix<T>> {
+  protected tConstructor: new () => T
   private data: T[][]
 
   public constructor(height: number = 3, width: number = 3, tConstructor: new () => T) {
@@ -16,6 +18,7 @@ export class Matrix<T extends IComparable<T> & ISubtractable<T>> implements IEqu
     }
 
     this.data = []
+    this.tConstructor = tConstructor
 
     const exampleT = new tConstructor()
 
@@ -74,6 +77,32 @@ export class Matrix<T extends IComparable<T> & ISubtractable<T>> implements IEqu
    */
   public item(rowIndex: number, columnIndex: number): T {
     return this.data[rowIndex][columnIndex]
+  }
+
+  /**
+   * Multiplies this matrix by another.
+   * @param rhs The other matrix by which to multiply.
+   */
+  public multiply(rhs: Matrix<T>): Matrix<T> {
+    if (this.width !== rhs.height) {
+      throw new Error("This matrix's height must equal the other matrix's width to be able to multiply.")
+    }
+
+    const result = new Matrix<T>(this.height, rhs.width, this.tConstructor)
+
+    for (let rowIndex = 0; rowIndex < this.height; rowIndex++) {
+      for (let columnIndex = 0; columnIndex < rhs.width; columnIndex++) {
+        for (let commonIndex = 0; commonIndex < this.width; commonIndex++) {
+          const intermediaryResult = result
+            .item(rowIndex, columnIndex)
+            .add(this.item(rowIndex, commonIndex).multiply(rhs.item(commonIndex, columnIndex)))
+
+          result.setItem(rowIndex, columnIndex, intermediaryResult)
+        }
+      }
+    }
+
+    return result
   }
 
   /**
