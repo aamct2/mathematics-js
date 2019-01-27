@@ -151,6 +151,20 @@ export class FiniteSet<T extends IEquatable<T>> implements IEquatable<FiniteSet<
     return result
   }
 
+  /**
+   * Determines whether this set is a subset of a given set.
+   * @param rhs The potential superset.
+   */
+  public isSubsetOf(rhs: FiniteSet<T>): boolean {
+    for (const element of this.elements) {
+      if (!rhs.contains(element)) {
+        return false
+      }
+    }
+
+    return true
+  }
+
   public NullSet(): FiniteSet<T> {
     return new FiniteSet<T>()
   }

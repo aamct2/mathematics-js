@@ -104,5 +104,11 @@ describe("FiniteSets", () => {
 
       expect(numberSet.intersection(rhs).isEqualTo(rhs)).toBeTruthy()
     })
+
+    it("is a subset of {0, 1, 2, 3, 5}", () => {
+      const rhs = new FiniteSet<RealNumber>([0, 1, 2, 3, 5].map(x => new RealNumber(x)))
+
+      expect(numberSet.isSubsetOf(rhs)).toBeTruthy()
+    })
   })
 })
