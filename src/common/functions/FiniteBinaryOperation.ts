@@ -162,6 +162,31 @@ export class FiniteBinaryOperation<T extends IEquatable<T>> extends FiniteFuncti
   }
 
   /**
+   * Returns the inverse of the element. In other words, given `a` this function returns `b` such that `a + b = b + a = e`.
+   * @param input The element for which to find its inverse.
+   */
+  public inverseElement(input: T): T {
+    if (!this.hasIdentity()) {
+      throw new Error("This operation does not have an identity element.")
+    }
+
+    const identityElement: T = this.identityElement!
+
+    for (let index = 0; index < this.codomain.cardinality(); index++) {
+      const secondElement = this.codomain.element(index)
+
+      const tuple1 = new Tuple([input, secondElement])
+      const tuple2 = new Tuple([secondElement, input])
+
+      if (this.applyMap(tuple1).isEqualTo(identityElement) && this.applyMap(tuple2).isEqualTo(identityElement)) {
+        return secondElement
+      }
+    }
+
+    throw new Error("This element does not have an inverse.")
+  }
+
+  /**
    * Determines if the operation is associative. In other words, `(a + b) + c = a + (b + c)` for all `a`, `b`, and `c`. Uses Light's algorithm for testing associativity.
    */
   public isAssociative(): boolean {
