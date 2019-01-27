@@ -1,3 +1,4 @@
 {
-  "jest.showCoverageOnLoad": true
+  "jest.showCoverageOnLoad": true,
+  "typescript.tsdk": "./node_modules/typescript/lib"
 }
