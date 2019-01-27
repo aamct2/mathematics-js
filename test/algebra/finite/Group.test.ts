@@ -25,6 +25,16 @@ describe("FiniteGroup", () => {
     }).toThrow()
   })
 
+  describe("given common groups", () => {
+    const dihedral8Group = Dihedral8Group()
+    const Zmod2Group = new FiniteGroup(Zmod2Set, Zmod2Addition)
+
+    test("abelian", () => {
+      expect(dihedral8Group.isAbelian()).toBeFalsy()
+      expect(Zmod2Group.isAbelian()).toBeTruthy()
+    })
+  })
+
   describe("given the group (Zmod2, +)", () => {
     const Zmod2Group = new FiniteGroup(Zmod2Set, Zmod2Addition)
 

@@ -4,7 +4,13 @@ import { FiniteSet } from "../../common/sets/FiniteSet"
 import { Tuple } from "../../common/sets/Tuple"
 import { FiniteMonoid } from "./Monoid"
 
+enum FiniteGroupPropertiesKeys {
+  Abelian = "abelian",
+}
+
 export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> {
+  private groupProperties: { [key: string]: boolean } = {}
+
   public constructor(set: FiniteSet<T>, operation: FiniteBinaryOperation<T>) {
     super(set, operation)
 
@@ -118,5 +124,13 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> {
     const tuple3 = new Tuple([this.applyOperation(tuple2), rhs])
 
     return this.applyOperation(tuple3)
+  }
+
+  public isAbelian(): boolean {
+    if (!(FiniteGroupPropertiesKeys.Abelian in this.groupProperties)) {
+      this.groupProperties[FiniteGroupPropertiesKeys.Abelian] = this.operation.isCommutative()
+    }
+
+    return this.groupProperties[FiniteGroupPropertiesKeys.Abelian]
   }
 }
