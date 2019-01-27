@@ -2,7 +2,7 @@ import { IdentityMap } from "../../../src/algebra/finite/examples/maps/IdentityM
 import { IntegerMultiplicationMap } from "../../../src/algebra/finite/examples/maps/IntegerMultiplicationMap"
 import { LeftZeroNMap } from "../../../src/algebra/finite/examples/maps/LeftZeroNMap"
 import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples/maps/ZmodNAdditionMap"
-import { ZmodNMultiplicationMap } from "../../../src/algebra/finite/examples/ZmodNMultiplicationMap"
+import { ZmodNMultiplicationMap } from "../../../src/algebra/finite/examples/maps/ZmodNMultiplicationMap"
 import { FiniteMonoid } from "../../../src/algebra/finite/Monoid"
 import { FiniteSemiGroup } from "../../../src/algebra/finite/SemiGroup"
 import { FiniteBinaryOperation } from "../../../src/common/functions/FiniteBinaryOperation"
