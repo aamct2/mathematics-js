@@ -1,4 +1,6 @@
+import { AlternatingGroup } from "../../../src/algebra/finite/examples/groups/AlternatingGroup"
 import { Dihedral8Group } from "../../../src/algebra/finite/examples/groups/Dihedral8Group"
+import { SymmetricGroup } from "../../../src/algebra/finite/examples/groups/SymmetricGroup"
 import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples/maps/ZmodNAdditionMap"
 import { ZmodNMultiplicationMap } from "../../../src/algebra/finite/examples/maps/ZmodNMultiplicationMap"
 import { FiniteGroup } from "../../../src/algebra/finite/Group"
@@ -26,12 +28,20 @@ describe("FiniteGroup", () => {
   })
 
   describe("given common groups", () => {
+    const Alt3Group = AlternatingGroup(3)
     const dihedral8Group = Dihedral8Group()
+    const Sym3Group = SymmetricGroup(3)
     const Zmod2Group = new FiniteGroup(Zmod2Set, Zmod2Addition)
 
     test("abelian", () => {
+      expect(Alt3Group.isAbelian()).toBeTruthy()
       expect(dihedral8Group.isAbelian()).toBeFalsy()
+      expect(Sym3Group.isAbelian()).toBeFalsy()
       expect(Zmod2Group.isAbelian()).toBeTruthy()
+    })
+
+    test("subgroup", () => {
+      expect(Alt3Group.isSubgroupOf(Sym3Group)).toBeTruthy()
     })
   })
 
@@ -48,6 +58,14 @@ describe("FiniteGroup", () => {
 
       expect(trivialSubgroup.order).toBe(1)
       expect(trivialSubgroup.set.element(0).isEqualTo(new IntegerNumber(0))).toBeTruthy()
+    })
+
+    it("is not a subgroup of (Zmod4, +)", () => {
+      const Zmod4Set = new FiniteSet<IntegerNumber>([0, 1, 2, 3].map(x => new IntegerNumber(x)))
+      const Zmod4Addition = new FiniteBinaryOperation(Zmod4Set, new ZmodNAdditionMap(new IntegerNumber(4)))
+      const Zmod4Group = new FiniteGroup(Zmod4Set, Zmod4Addition)
+
+      expect(Zmod2Group.isSubgroupOf(Zmod4Group)).toBeFalsy()
     })
   })
 

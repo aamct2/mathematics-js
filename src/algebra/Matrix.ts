@@ -114,4 +114,20 @@ export class Matrix<T extends IComparable<T> & ISubtractable<T> & IDivideable<T>
   public setItem(rowIndex: number, columnIndex: number, value: T) {
     this.data[rowIndex][columnIndex] = value
   }
+
+  public toString(): string {
+    let result = ""
+
+    for (let rowIndex = 0; rowIndex < this.height; rowIndex++) {
+      result += "|" + this.item(rowIndex, 0).toString()
+
+      for (let columnIndex = 1; columnIndex < this.width; columnIndex++) {
+        result += " " + this.item(rowIndex, columnIndex).toString()
+      }
+
+      result += "|\n"
+    }
+
+    return result
+  }
 }

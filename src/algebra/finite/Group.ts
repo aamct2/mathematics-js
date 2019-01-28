@@ -184,6 +184,30 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
   }
 
   /**
+   * Determines whether this group is a subgroup of another group.
+   * @param rhs The supergroup (or ambient group) to test if this group is a subgroup of it.
+   */
+  public isSubgroupOf(rhs: FiniteGroup<T>): boolean {
+    if (!this.set.isSubsetOf(rhs.set)) {
+      return false
+    }
+
+    if (!this.operation.isEquivalentMapTo(rhs.operation.relation, rhs.operation.domain, rhs.operation.codomain)) {
+      return false
+    }
+
+    // Collect any useful new inherited information since it is a subgroup.
+    const subgroupProperties = rhs.subgroupClosedProperties()
+    Object.entries(subgroupProperties).forEach(([key, value]) => {
+      if (!(key in this.groupProperties)) {
+        this.groupProperties[key] = value
+      }
+    })
+
+    return true
+  }
+
+  /**
    * Returns the trivial subgroup of this group.
    */
   public trivialSubgroup(): FiniteGroup<T> {

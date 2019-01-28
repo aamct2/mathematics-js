@@ -35,4 +35,29 @@ describe("SquareMatrix", () => {
 
     expect(lhs.multiply(rhs).isEqualTo(expectedMatrix)).toBeTruthy()
   })
+
+  test("determinant", () => {
+    const matrix = new SquareMatrix(3, RealNumber)
+    matrix.setItem(0, 0, new RealNumber(-2))
+    matrix.setItem(0, 1, new RealNumber(2))
+    matrix.setItem(0, 2, new RealNumber(-3))
+    matrix.setItem(1, 0, new RealNumber(-1))
+    matrix.setItem(1, 1, new RealNumber(1))
+    matrix.setItem(1, 2, new RealNumber(3))
+    matrix.setItem(2, 0, new RealNumber(2))
+    matrix.setItem(2, 1, new RealNumber(0))
+    matrix.setItem(2, 2, new RealNumber(-1))
+
+    expect(matrix.determinant().value).toBe(18)
+  })
+
+  test("determinant of the identity is 1", () => {
+    const matrix = new SquareMatrix(2, RealNumber)
+    matrix.setItem(0, 0, new RealNumber(1))
+    matrix.setItem(0, 1, new RealNumber(0))
+    matrix.setItem(1, 0, new RealNumber(0))
+    matrix.setItem(1, 1, new RealNumber(1))
+
+    expect(matrix.determinant().value).toBe(1)
+  })
 })

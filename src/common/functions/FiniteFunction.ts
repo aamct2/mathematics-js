@@ -78,6 +78,23 @@ export class FiniteFunction<T extends IEquatable<T>, G extends IEquatable<G>>
   }
 
   /**
+   * Determines whether this function's map and another map are equivalent for a given domain and codomain.
+   * @param rhs The given map to test.
+   * @param testDomain The test domain.
+   * @param testCodomain The test codomain.
+   */
+  public isEquivalentMapTo(rhs: IMap<T, G>, testDomain: FiniteSet<T>, testCodomain: FiniteSet<G>): boolean {
+    try {
+      const testFunction1 = new FiniteFunction(testDomain, testCodomain, this.relation)
+      const testFunction2 = new FiniteFunction(testDomain, testCodomain, rhs)
+
+      return testFunction1.isEqualTo(testFunction2)
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
    * Determines whether or not the function is injective (also known as one-to-one). It is injective if every element of the codomain is mapped to by at most one element of its domain.
    */
   public isInjective(): boolean {

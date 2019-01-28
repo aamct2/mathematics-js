@@ -19,6 +19,40 @@ export class SquareMatrix<T extends IComparable<T> & ISubtractable<T> & IDividea
   }
 
   /**
+   * Returns the determinant of the matrix by using Laplacian expansion
+   */
+  public determinant(): T {
+    return this.determinantRecursion()
+  }
+
+  /**
+   * Returns the matrix formed by removing a given row and column.
+   * @param rowIndex Index of the row to be removed.
+   * @param columnIndex Index of the column to be removed.
+   */
+  public minor(rowIndex: number, columnIndex: number): SquareMatrix<T> {
+    const minorMatrix = new SquareMatrix<T>(this.width - 1, this.tConstructor)
+    let minorRow = 0
+    let minorColumn = 0
+
+    for (let row = 0; row < this.height; row++) {
+      for (let column = 0; column < this.width; column++) {
+        if (row !== rowIndex && column !== columnIndex) {
+          minorMatrix.setItem(minorRow, minorColumn, this.item(row, column))
+
+          minorColumn++
+          if (minorColumn > this.width - 2) {
+            minorColumn = 0
+            minorRow++
+          }
+        }
+      }
+    }
+
+    return minorMatrix
+  }
+
+  /**
    * Multiplies this matrix by another.
    * @param rhs The other matrix by which to multiply.
    */
@@ -42,5 +76,27 @@ export class SquareMatrix<T extends IComparable<T> & ISubtractable<T> & IDividea
     }
 
     return result
+  }
+
+  private determinantRecursion(): T {
+    if (this.width === 1) {
+      // Base case
+      return this.item(0, 0)
+    } else {
+      const exampleT = new this.tConstructor()
+      let returnValue = exampleT.additiveIdentity
+
+      for (let topColumnIndex = 0; topColumnIndex < this.width; topColumnIndex++) {
+        let minorDeterminant = this.minor(0, topColumnIndex).determinantRecursion()
+
+        if (Math.pow(-1, topColumnIndex) === -1) {
+          minorDeterminant = exampleT.additiveIdentity.subtract(minorDeterminant)
+        }
+
+        returnValue = returnValue.add(this.item(0, topColumnIndex).multiply(minorDeterminant))
+      }
+
+      return returnValue
+    }
   }
 }

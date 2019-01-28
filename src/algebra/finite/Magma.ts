@@ -10,7 +10,7 @@ import { Tuple } from "../../common/sets/Tuple"
  */
 export class FiniteMagma<T extends IEquatable<T>> {
   public readonly set: FiniteSet<T>
-  protected operation: FiniteBinaryOperation<T>
+  public readonly operation: FiniteBinaryOperation<T>
 
   private magmaProperties: { [key: string]: boolean } = {}
 
