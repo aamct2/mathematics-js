@@ -78,6 +78,24 @@ export class SquareMatrix<T extends IComparable<T> & ISubtractable<T> & IDividea
     return result
   }
 
+  /**
+   * Returns the scalar product of this matrix with scalar.
+   * @param scalar The scalar by which to multiply.
+   */
+  public multiplyByScalar(scalar: T): SquareMatrix<T> {
+    const result = new SquareMatrix<T>(this.width, this.tConstructor)
+
+    for (let rowIndex = 0; rowIndex < this.height; rowIndex++) {
+      for (let columnIndex = 0; columnIndex < this.width; columnIndex++) {
+        const element = this.item(rowIndex, columnIndex)
+
+        result.setItem(rowIndex, columnIndex, element.multiply(scalar))
+      }
+    }
+
+    return result
+  }
+
   private determinantRecursion(): T {
     if (this.width === 1) {
       // Base case

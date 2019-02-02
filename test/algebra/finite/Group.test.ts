@@ -1,5 +1,6 @@
 import { AlternatingGroup } from "../../../src/algebra/finite/examples/groups/AlternatingGroup"
 import { Dihedral8Group } from "../../../src/algebra/finite/examples/groups/Dihedral8Group"
+import { QuaternionGroup } from "../../../src/algebra/finite/examples/groups/QuaternionGroup"
 import { SymmetricGroup } from "../../../src/algebra/finite/examples/groups/SymmetricGroup"
 import { ZmodNAdditionGroup } from "../../../src/algebra/finite/examples/groups/ZmodNGroup"
 import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples/maps/ZmodNAdditionMap"
@@ -37,6 +38,10 @@ describe("FiniteGroup", () => {
     // non-Abelian, Nilpotent, Solvable, non-T-Group
     const dihedral8Group = Dihedral8Group()
 
+    // Order: 8
+    // non-Abelian, Nilpotent, Solvable, Dedekind, T-Group, Special
+    const QuatGroup = QuaternionGroup()
+
     // Order: 6
     // non-Abelian, non-Nilpotent, Solvable
     // (Not sure, but the system claims Sym3Group is metanilpotent. Need to verify)
@@ -54,6 +59,7 @@ describe("FiniteGroup", () => {
     test("abelian", () => {
       expect(Alt3Group.isAbelian()).toBeTruthy()
       expect(dihedral8Group.isAbelian()).toBeFalsy()
+      expect(QuatGroup.isAbelian()).toBeFalsy()
       expect(Sym3Group.isAbelian()).toBeFalsy()
       expect(Zmod2Group.isAbelian()).toBeTruthy()
     })

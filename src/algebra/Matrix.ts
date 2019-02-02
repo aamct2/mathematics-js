@@ -106,6 +106,24 @@ export class Matrix<T extends IComparable<T> & ISubtractable<T> & IDivideable<T>
   }
 
   /**
+   * Returns the scalar product of this matrix with scalar.
+   * @param scalar The scalar by which to multiply.
+   */
+  public multiplyByScalar(scalar: T): Matrix<T> {
+    const result = new Matrix<T>(this.height, this.width, this.tConstructor)
+
+    for (let rowIndex = 0; rowIndex < this.height; rowIndex++) {
+      for (let columnIndex = 0; columnIndex < this.width; columnIndex++) {
+        const element = this.item(rowIndex, columnIndex)
+
+        result.setItem(rowIndex, columnIndex, element.multiply(scalar))
+      }
+    }
+
+    return result
+  }
+
+  /**
    * Sets the component at `(rowIndex, columnIndex)`.
    * @param rowIndex The index of the row in the matrix in which to set the component.
    * @param columnIndex The index of the column in the matrix in which to set the component.
