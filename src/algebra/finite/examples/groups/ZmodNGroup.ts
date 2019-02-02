@@ -1,5 +1,5 @@
 import { FiniteBinaryOperation } from "../../../../common/functions/FiniteBinaryOperation"
-import { IntegerNumber } from "../../../../common/IntegerNumber"
+import { IntegerNumber } from "../../../../common/numbers/IntegerNumber"
 import { FiniteSet } from "../../../../common/sets/FiniteSet"
 import { FiniteGroup } from "../../Group"
 import { ZmodNAdditionMap } from "../maps/ZmodNAdditionMap"

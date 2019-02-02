@@ -2,7 +2,7 @@ import { LeftZeroNMap } from "../../../src/algebra/finite/examples/maps/LeftZero
 import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples/maps/ZmodNAdditionMap"
 import { ZmodNMultiplicationMap } from "../../../src/algebra/finite/examples/maps/ZmodNMultiplicationMap"
 import { FiniteBinaryOperation } from "../../../src/common/functions/FiniteBinaryOperation"
-import { IntegerNumber } from "../../../src/common/IntegerNumber"
+import { IntegerNumber } from "../../../src/common/numbers/IntegerNumber"
 import { FiniteSet } from "../../../src/common/sets/FiniteSet"
 
 describe("FiniteBinaryOperation", () => {

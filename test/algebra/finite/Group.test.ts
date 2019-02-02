@@ -7,8 +7,8 @@ import { ZmodNMultiplicationMap } from "../../../src/algebra/finite/examples/map
 import { FiniteGroup } from "../../../src/algebra/finite/Group"
 import { SquareMatrix } from "../../../src/algebra/SquareMatrix"
 import { FiniteBinaryOperation } from "../../../src/common/functions/FiniteBinaryOperation"
-import { IntegerNumber } from "../../../src/common/IntegerNumber"
-import { RealNumber } from "../../../src/common/RealNumber"
+import { IntegerNumber } from "../../../src/common/numbers/IntegerNumber"
+import { RealNumber } from "../../../src/common/numbers/RealNumber"
 import { FiniteSet } from "../../../src/common/sets/FiniteSet"
 
 describe("FiniteGroup", () => {

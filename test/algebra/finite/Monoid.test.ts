@@ -7,7 +7,7 @@ import { FiniteMonoid } from "../../../src/algebra/finite/Monoid"
 import { FiniteSemiGroup } from "../../../src/algebra/finite/SemiGroup"
 import { FiniteBinaryOperation } from "../../../src/common/functions/FiniteBinaryOperation"
 import { FiniteFunction } from "../../../src/common/functions/FiniteFunction"
-import { IntegerNumber } from "../../../src/common/IntegerNumber"
+import { IntegerNumber } from "../../../src/common/numbers/IntegerNumber"
 import { FiniteSet } from "../../../src/common/sets/FiniteSet"
 
 describe("FiniteMonoid", () => {

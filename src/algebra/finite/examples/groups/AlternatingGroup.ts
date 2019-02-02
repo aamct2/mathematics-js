@@ -1,5 +1,5 @@
-import { IntegerNumber } from "../../../../common/IntegerNumber"
-import { RealNumber } from "../../../../common/RealNumber"
+import { IntegerNumber } from "../../../../common/numbers/IntegerNumber"
+import { RealNumber } from "../../../../common/numbers/RealNumber"
 import { FiniteSet } from "../../../../common/sets/FiniteSet"
 import { SquareMatrix } from "../../../SquareMatrix"
 import { FiniteGroup } from "../../Group"

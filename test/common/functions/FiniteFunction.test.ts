@@ -2,7 +2,7 @@ import { IdentityMap } from "../../../src/algebra/finite/examples/maps/IdentityM
 import { IncrementMap } from "../../../src/algebra/finite/examples/maps/IncrementMap"
 import { LeftZeroNMap } from "../../../src/algebra/finite/examples/maps/LeftZeroNMap"
 import { FiniteFunction } from "../../../src/common/functions/FiniteFunction"
-import { IntegerNumber } from "../../../src/common/IntegerNumber"
+import { IntegerNumber } from "../../../src/common/numbers/IntegerNumber"
 import { FiniteSet } from "../../../src/common/sets/FiniteSet"
 
 describe("FiniteFunction", () => {

@@ -1,6 +1,6 @@
 import * as _ from "lodash"
 import { SquareMatrix } from "../../algebra/SquareMatrix"
-import { RealNumber } from "../RealNumber"
+import { RealNumber } from "../numbers/RealNumber"
 import { FiniteSet } from "../sets/FiniteSet"
 import { Tuple } from "../sets/Tuple"
 import { FiniteFunction, FunctionPropertiesKeys } from "./FiniteFunction"

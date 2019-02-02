@@ -1,4 +1,4 @@
-import { RealNumber } from "../common/RealNumber"
+import { RealNumber } from "../common/numbers/RealNumber"
 
 /**
  * Represents a matrix with elements of type T.

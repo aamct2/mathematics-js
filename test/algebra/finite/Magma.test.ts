@@ -1,7 +1,7 @@
 import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples/maps/ZmodNAdditionMap"
 import { FiniteMagma } from "../../../src/algebra/finite/Magma"
 import { FiniteBinaryOperation } from "../../../src/common/functions/FiniteBinaryOperation"
-import { IntegerNumber } from "../../../src/common/IntegerNumber"
+import { IntegerNumber } from "../../../src/common/numbers/IntegerNumber"
 import { FiniteSet } from "../../../src/common/sets/FiniteSet"
 import { Tuple } from "../../../src/common/sets/Tuple"
 

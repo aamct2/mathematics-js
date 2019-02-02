@@ -2,7 +2,7 @@ import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples/maps/Zmod
 import { ZmodNMultiplicationMap } from "../../../src/algebra/finite/examples/maps/ZmodNMultiplicationMap"
 import { FiniteSemiGroup } from "../../../src/algebra/finite/SemiGroup"
 import { FiniteBinaryOperation } from "../../../src/common/functions/FiniteBinaryOperation"
-import { IntegerNumber } from "../../../src/common/IntegerNumber"
+import { IntegerNumber } from "../../../src/common/numbers/IntegerNumber"
 import { FiniteSet } from "../../../src/common/sets/FiniteSet"
 import { Tuple } from "../../../src/common/sets/Tuple"
 

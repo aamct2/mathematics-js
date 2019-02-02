@@ -1,4 +1,4 @@
-import { RealNumber } from "../../../src/common/RealNumber"
+import { RealNumber } from "../../../src/common/numbers/RealNumber"
 import { FiniteSet } from "../../../src/common/sets/FiniteSet"
 
 describe("FiniteSets", () => {

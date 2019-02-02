@@ -1,4 +1,4 @@
-import { IntegerNumber } from "../../../../common/IntegerNumber"
+import { IntegerNumber } from "../../../../common/numbers/IntegerNumber"
 import { Tuple } from "../../../../common/sets/Tuple"
 import { SquareMatrix } from "../../../SquareMatrix"
 
