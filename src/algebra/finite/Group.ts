@@ -208,6 +208,77 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
   }
 
   /**
+   * Returns the order of a particular element of the group.
+   * @param element The element whose order is to be returned.
+   */
+  public orderOf(element: T): number {
+    if (!this.set.contains(element)) {
+      throw new NotMemberOfException(`The set does not contain ${element}`)
+    }
+
+    // Deal with the trivial case
+    if (element.isEqualTo(this.identity)) {
+      return 1
+    }
+
+    // The order of an element must divide the order of the group,
+    //   thus we only need to check those powers.
+    let currentPower = element
+    const possibleOrders = this.findFactors(this.order)
+
+    for (let index = 1; index < possibleOrders.length; index++) {
+      const possibleOrder = possibleOrders[index]
+      const secondValue = this.power(element, possibleOrder - possibleOrders[index - 1])
+      const tuple = new Tuple([currentPower, secondValue])
+      currentPower = this.applyOperation(tuple)
+
+      if (currentPower.isEqualTo(this.identity)) {
+        return possibleOrder
+      }
+    }
+
+    throw new Error("Error: Could not find order of element?! There must be a problem with the code.")
+  }
+
+  /**
+   * Returns the power of a given element.
+   * @param element The element to multiply by itself to the exponent-th degree.
+   * @param exponent The number of times to multiply the element by itself.
+   */
+  public power(element: T, exponent: number): T {
+    if (!Number.isInteger(exponent) || !(exponent > 0)) {
+      throw new Error("Expected exponent to be a positive integer.")
+    }
+
+    if (!this.set.contains(element)) {
+      throw new NotMemberOfException("The element is not a member of the group.")
+    }
+
+    let x = this.identity
+    let g = element
+    let currentExponent = exponent
+
+    if (currentExponent % 2 === 1) {
+      const tuple = new Tuple([x, g])
+      x = this.applyOperation(tuple)
+    }
+
+    while (currentExponent > 1) {
+      const tuple = new Tuple([g, g])
+      g = this.applyOperation(tuple)
+
+      currentExponent = Math.floor(currentExponent / 2)
+
+      if (currentExponent % 2 === 1) {
+        const tuple2 = new Tuple([x, g])
+        x = this.applyOperation(tuple2)
+      }
+    }
+
+    return x
+  }
+
+  /**
    * Returns the trivial subgroup of this group.
    */
   public trivialSubgroup(): FiniteGroup<T> {
@@ -217,6 +288,28 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
     const newOperation = this.operation.restriction(newSet)
 
     return FiniteGroup.KnownFiniteGroup(newSet, newOperation, this.subgroupClosedProperties())
+  }
+
+  /**
+   * Finds all factors of a given number.
+   * @param value The integer for which to find the factors.
+   */
+  private findFactors(value: number): number[] {
+    if (!Number.isInteger(value)) {
+      throw new Error("Expected `value` to be an integer.")
+    }
+
+    const result: number[] = []
+
+    result.push(1)
+
+    for (let index = 2; index < value + 1; index++) {
+      if (value % index === 0) {
+        result.push(index)
+      }
+    }
+
+    return result
   }
 
   /**

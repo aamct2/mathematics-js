@@ -34,6 +34,7 @@ describe("FiniteGroup", () => {
     const Sym3Group = SymmetricGroup(3)
     const Sym4Group = SymmetricGroup(4)
     const Zmod2Group = ZmodNAdditionGroup(2)
+    const Zmod4Group = ZmodNAdditionGroup(4)
 
     test("abelian", () => {
       expect(Alt3Group.isAbelian()).toBeTruthy()
@@ -49,6 +50,11 @@ describe("FiniteGroup", () => {
     test("order", () => {
       expect(dihedral8Group.order).toBe(8)
       expect(Sym4Group.order).toBe(24)
+    })
+
+    test("order of an element", () => {
+      expect(dihedral8Group.orderOf(dihedral8Group.identity)).toBe(1)
+      expect(Zmod4Group.orderOf(new IntegerNumber(3))).toBe(4)
     })
 
     test("subgroup", () => {
@@ -162,6 +168,24 @@ describe("FiniteGroup", () => {
     test("the commutator of an element not in the group throws an error", () => {
       expect(() => {
         Zmod2Group.commutator(new IntegerNumber(0), new IntegerNumber(3))
+      }).toThrow()
+    })
+
+    test("the order of an element not in the group throws an error", () => {
+      expect(() => {
+        Zmod2Group.orderOf(new IntegerNumber(4))
+      }).toThrow()
+    })
+
+    test("the power of an element to a negative exponent throws an error", () => {
+      expect(() => {
+        Zmod2Group.power(new IntegerNumber(1), -1)
+      }).toThrow()
+    })
+
+    test("the power of an element not in the group throws an error", () => {
+      expect(() => {
+        Zmod2Group.power(new IntegerNumber(4), 3)
       }).toThrow()
     })
   })
