@@ -8,6 +8,7 @@ import { FiniteMonoid } from "./Monoid"
 
 enum FiniteGroupPropertiesKeys {
   Abelian = "abelian",
+  AllSubgroups = "all subgroups",
   Ambivalent = "ambivalent",
   Cyclic = "cyclic",
   Dedekind = "dedekind",
@@ -46,6 +47,7 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
     return newGroup
   }
 
+  private allSubgroups?: FiniteSet<FiniteGroup<T>>
   private groupProperties: { [key: string]: boolean } = {}
 
   public constructor(set: FiniteSet<T>, operation: FiniteBinaryOperation<T>) {
@@ -459,6 +461,58 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
     }
 
     return result
+  }
+
+  /**
+   * Returns the set of all subgroups of this group (includes improper subgroups).
+   */
+  public setOfAllSubgroups(): FiniteSet<FiniteGroup<T>> {
+    if (!(FiniteGroupPropertiesKeys.AllSubgroups in this.groupProperties)) {
+      const result = new FiniteSet<FiniteGroup<T>>()
+      const subgroupProperties = this.subgroupClosedProperties()
+
+      const modifiedSet = this.set.clone()
+      modifiedSet.deleteElement(modifiedSet.indexOf(this.identity))
+
+      // Generating the powerset is an expensive operation.
+      // All subgroups must contain the identity element.
+      // So remove it, then create the powerset, then add it back in to each of these candidates.
+      const powerSet = modifiedSet.PowerSet()
+      for (let index = 0; index < powerSet.cardinality(); index++) {
+        const element = powerSet.element(index)
+        element.addElement(this.identity)
+        powerSet.setElement(index, element)
+      }
+
+      // Order of the subgroup must divide the order of the group (finite only)
+      // So only bother trying those
+      for (let index = powerSet.cardinality() - 1; index >= 0; index--) {
+        const element = powerSet.element(index)
+
+        if (this.order % element.cardinality() !== 0) {
+          powerSet.deleteElement(index)
+        }
+      }
+
+      for (let index = 0; index < powerSet.cardinality(); index++) {
+        const subgroupSet = powerSet.element(index)
+
+        try {
+          const subgroupOperation = this.operation.restriction(subgroupSet)
+          const subgroup = FiniteGroup.KnownFiniteGroup(subgroupSet, subgroupOperation, subgroupProperties)
+
+          result.addElement(subgroup)
+        } catch (error) {
+          // If there was an exception, the operation does not exist,
+          //   so that element of the power set is not a group
+        }
+      }
+
+      this.allSubgroups = result
+      this.groupProperties[FiniteGroupPropertiesKeys.AllSubgroups] = true
+    }
+
+    return this.allSubgroups!.clone()
   }
 
   /**

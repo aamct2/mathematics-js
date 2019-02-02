@@ -30,6 +30,13 @@ export class FiniteSet<T extends IEquatable<T>> implements IEquatable<FiniteSet<
   }
 
   /**
+   * Creates a clone of this set.
+   */
+  public clone(): FiniteSet<T> {
+    return _.cloneDeep(this)
+  }
+
+  /**
    * Determines whether this set contains a given element.
    * @param element The given element.
    */
@@ -250,9 +257,9 @@ export class FiniteSet<T extends IEquatable<T>> implements IEquatable<FiniteSet<
   public union(rhs: FiniteSet<T>): FiniteSet<T> {
     // Don't waste time cranking the union if one of the sets is the null set
     if (this.isEqualTo(this.NullSet())) {
-      return _.cloneDeep(rhs)
+      return rhs.clone()
     } else if (rhs.isEqualTo(rhs.NullSet())) {
-      return _.cloneDeep(this)
+      return this.clone()
     }
 
     const result = new FiniteSet<T>()

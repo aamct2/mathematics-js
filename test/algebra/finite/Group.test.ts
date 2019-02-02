@@ -264,6 +264,14 @@ describe("FiniteGroup", () => {
     expect(Zmod2Group.trivialSubgroup().isAbelian()).toBeTruthy()
   })
 
+  test("the only subgroups of Zmod3 are Zmod1 and Zmod3", () => {
+    const Zmod1Group = ZmodNAdditionGroup(1)
+    const Zmod3Group = ZmodNAdditionGroup(3)
+    const expected = new FiniteSet([Zmod1Group, Zmod3Group])
+
+    expect(Zmod3Group.setOfAllSubgroups().isEqualTo(expected)).toBeTruthy()
+  })
+
   describe("group errors", () => {
     const Zmod2Group = ZmodNAdditionGroup(2)
     const Zmod3Set = new FiniteSet<IntegerNumber>([0, 1, 2].map(x => new IntegerNumber(x)))
