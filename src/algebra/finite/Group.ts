@@ -8,6 +8,7 @@ import { FiniteMonoid } from "./Monoid"
 
 enum FiniteGroupPropertiesKeys {
   Abelian = "abelian",
+  AllNormalSubgroups = "all normal subgroups",
   AllSubgroups = "all subgroups",
   Ambivalent = "ambivalent",
   Cyclic = "cyclic",
@@ -47,6 +48,7 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
     return newGroup
   }
 
+  private allNormalSubgroups?: FiniteSet<FiniteGroup<T>>
   private allSubgroups?: FiniteSet<FiniteGroup<T>>
   private groupProperties: { [key: string]: boolean } = {}
 
@@ -239,6 +241,41 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
     }
 
     return this.groupProperties[FiniteGroupPropertiesKeys.Cyclic]
+  }
+
+  /**
+   * Determines whether or not this group is a Dedekind group. In other words, that all its subgroups are normal.
+   */
+  public isDedekind(): boolean {
+    if (!(FiniteGroupPropertiesKeys.Dedekind in this.groupProperties)) {
+      function checkProperty(property: FiniteGroupPropertiesKeys, containingGroup: FiniteGroup<T>): boolean {
+        if (property in containingGroup.groupProperties) {
+          return containingGroup.groupProperties[property]
+        }
+
+        return false
+      }
+
+      // Abelian implies Dedekind, check to see if we've calculated that already.
+      if (checkProperty(FiniteGroupPropertiesKeys.Abelian, this)) {
+        this.groupProperties[FiniteGroupPropertiesKeys.Dedekind] = true
+        return true
+      }
+
+      // Nilpotent + T-Group implies Dedekind, check to see if we've calculated that already.
+      if (
+        checkProperty(FiniteGroupPropertiesKeys.Nilpotent, this) &&
+        checkProperty(FiniteGroupPropertiesKeys.TGroup, this)
+      ) {
+        this.groupProperties[FiniteGroupPropertiesKeys.Dedekind] = true
+        return true
+      }
+
+      const result = this.setOfAllSubgroups().isEqualTo(this.setOfAllNormalSubgroups())
+      this.groupProperties[FiniteGroupPropertiesKeys.Dedekind] = result
+    }
+
+    return this.groupProperties[FiniteGroupPropertiesKeys.Dedekind]
   }
 
   /**
@@ -461,6 +498,40 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
     }
 
     return result
+  }
+
+  /**
+   * Returns the set of all normal subgroups of this group (includes improper subgroups).
+   */
+  public setOfAllNormalSubgroups(): FiniteSet<FiniteGroup<T>> {
+    if (!(FiniteGroupPropertiesKeys.AllNormalSubgroups in this.groupProperties)) {
+      const allSubgroups = this.setOfAllSubgroups()
+
+      // Check to see if it is an abelian group, makes this trivial
+      if (
+        FiniteGroupPropertiesKeys.Abelian in this.groupProperties &&
+        this.groupProperties[FiniteGroupPropertiesKeys.Abelian] === true
+      ) {
+        this.allNormalSubgroups = allSubgroups
+        this.groupProperties[FiniteGroupPropertiesKeys.AllNormalSubgroups] = true
+        return this.allNormalSubgroups!.clone()
+      }
+
+      const result = new FiniteSet<FiniteGroup<T>>()
+
+      for (let index = 0; index < allSubgroups.cardinality(); index++) {
+        const subgroup = allSubgroups.element(index)
+
+        if (subgroup.isNormalSubgroupOf(this)) {
+          result.addElement(subgroup)
+        }
+      }
+
+      this.allNormalSubgroups = result
+      this.groupProperties[FiniteGroupPropertiesKeys.AllNormalSubgroups] = true
+    }
+
+    return this.allNormalSubgroups!.clone()
   }
 
   /**

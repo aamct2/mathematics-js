@@ -81,6 +81,11 @@ describe("FiniteGroup", () => {
       expect(Zmod2Group.isCyclic()).toBeTruthy()
     })
 
+    test("dedekind", () => {
+      expect(QuatGroup.isDedekind()).toBeTruthy()
+      expect(dihedral8Group.isDedekind()).toBeFalsy()
+    })
+
     test("normal subgroup", () => {
       expect(Zmod4Group.trivialSubgroup().isNormalSubgroupOf(Zmod4Group)).toBeTruthy()
       expect(Zmod4Group.isNormalSubgroupOf(Zmod4Group)).toBeTruthy()
