@@ -1,3 +1,4 @@
+import * as _ from "lodash"
 import { Tuple } from "./Tuple"
 
 export class FiniteSet<T extends IEquatable<T>> implements IEquatable<FiniteSet<T>> {
@@ -48,6 +49,34 @@ export class FiniteSet<T extends IEquatable<T>> implements IEquatable<FiniteSet<
    */
   public deleteElement(index: number) {
     this.elements.splice(index, 1)
+  }
+
+  /**
+   * Returns the set-theoretic difference of this set minus another set.
+   * @param rhs The set whose elements are to be removed from this one.
+   */
+  public difference(rhs: FiniteSet<T>): FiniteSet<T> {
+    const result = new FiniteSet<T>()
+
+    for (let lhsIndex = 0; lhsIndex < this.cardinality(); lhsIndex++) {
+      const lhsElement = this.element(lhsIndex)
+      let found = false
+
+      InnerLoop: for (let rhsIndex = 0; rhsIndex < rhs.cardinality(); rhsIndex++) {
+        const rhsElement = rhs.element(rhsIndex)
+
+        if (lhsElement.isEqualTo(rhsElement)) {
+          found = true
+          break InnerLoop
+        }
+      }
+
+      if (!found) {
+        result.addElement(lhsElement)
+      }
+    }
+
+    return result
   }
 
   /**
@@ -165,8 +194,28 @@ export class FiniteSet<T extends IEquatable<T>> implements IEquatable<FiniteSet<
     return true
   }
 
+  /**
+   * Returns the null set (also known as the empty set).
+   */
   public NullSet(): FiniteSet<T> {
     return new FiniteSet<T>()
+  }
+
+  /**
+   * Returns the powerset of this set.
+   */
+  public PowerSet(): FiniteSet<FiniteSet<T>> {
+    if (this.isEqualTo(this.NullSet())) {
+      return new FiniteSet([this.NullSet()])
+    }
+
+    const result = new FiniteSet<FiniteSet<T>>()
+
+    const baseElementSet = new FiniteSet<T>()
+    baseElementSet.addElement(this.element(0))
+    const differenceSet = this.difference(baseElementSet)
+
+    return differenceSet.PowerSet().union(this.familyPlusElemenet(this.element(0), differenceSet.PowerSet()))
   }
 
   /**
@@ -195,10 +244,54 @@ export class FiniteSet<T extends IEquatable<T>> implements IEquatable<FiniteSet<
   }
 
   /**
+   * Returns the union of this set with another set.
+   * @param rhs The other set with which to combine.
+   */
+  public union(rhs: FiniteSet<T>): FiniteSet<T> {
+    // Don't waste time cranking the union if one of the sets is the null set
+    if (this.isEqualTo(this.NullSet())) {
+      return _.cloneDeep(rhs)
+    } else if (rhs.isEqualTo(rhs.NullSet())) {
+      return _.cloneDeep(this)
+    }
+
+    const result = new FiniteSet<T>()
+
+    for (let index = 0; index < this.cardinality(); index++) {
+      const element = this.element(index)
+
+      result.addElement(element)
+    }
+
+    for (let index = 0; index < rhs.cardinality(); index++) {
+      const element = rhs.element(index)
+
+      result.addElement(element)
+    }
+
+    return result
+  }
+
+  /**
    * Add an element to this set, without checking to see if it's already in the set.
    * @param element Given element to add.
    */
   private addElementWithoutCheck(element: T) {
     this.elements.push(element)
+  }
+
+  private familyPlusElemenet(element: T, family: FiniteSet<FiniteSet<T>>): FiniteSet<FiniteSet<T>> {
+    const result = new FiniteSet<FiniteSet<T>>()
+    const elementSet = new FiniteSet<T>()
+
+    elementSet.addElement(element)
+
+    for (let index = 0; index < family.cardinality(); index++) {
+      const familyElement = family.element(index)
+
+      result.addElementWithoutCheck(familyElement.union(elementSet))
+    }
+
+    return result
   }
 }

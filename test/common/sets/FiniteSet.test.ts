@@ -1,5 +1,6 @@
 import { RealNumber } from "../../../src/common/numbers/RealNumber"
 import { FiniteSet } from "../../../src/common/sets/FiniteSet"
+import { IntegerNumber } from "../../../src/common/numbers/IntegerNumber"
 
 describe("FiniteSets", () => {
   const numberSet = new FiniteSet<RealNumber>([1, 2, 3].map(x => new RealNumber(x)))
@@ -109,6 +110,22 @@ describe("FiniteSets", () => {
       const rhs = new FiniteSet<RealNumber>([0, 1, 2, 3, 5].map(x => new RealNumber(x)))
 
       expect(numberSet.isSubsetOf(rhs)).toBeTruthy()
+    })
+  })
+
+  describe("given the set {0, 1, 2}", () => {
+    const Zmod3Set = new FiniteSet<IntegerNumber>([0, 1, 2].map(x => new IntegerNumber(x)))
+
+    it("has a power set as expected", () => {
+      const expectedString = "{{}, {2}, {1}, {2, 1}, {0}, {2, 0}, {1, 0}, {2, 1, 0}}"
+
+      expect(Zmod3Set.PowerSet().toString()).toBe(expectedString)
+    })
+
+    test("the power set of the null set is the set of the null set", () => {
+      const nullSet = Zmod3Set.NullSet()
+
+      expect(nullSet.PowerSet().isEqualTo(new FiniteSet([nullSet]))).toBeTruthy()
     })
   })
 })
