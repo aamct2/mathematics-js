@@ -95,12 +95,53 @@ describe("FiniteGroup", () => {
         expect(Zmod4Group.isSubgroupOf(Zmod2Group)).toBeFalsy()
       })
 
-      test("({0, 2}, +) is a subgroup of (Zmod4, +)", () => {
-        const subSet = new FiniteSet<IntegerNumber>([0, 2].map(x => new IntegerNumber(x)))
-        const restriction = Zmod4Group.operation.restriction(subSet)
-        const subgroup = new FiniteGroup(subSet, restriction)
+      const subSet = new FiniteSet<IntegerNumber>([0, 2].map(x => new IntegerNumber(x)))
+      const restriction = Zmod4Group.operation.restriction(subSet)
+      const subgroup = new FiniteGroup(subSet, restriction)
 
+      test("({0, 2}, +) is a subgroup of (Zmod4, +)", () => {
         expect(subgroup.isSubgroupOf(Zmod4Group)).toBeTruthy()
+      })
+
+      describe("cosets in (Zmod4, +) with respect to ({0, 2}, +)", () => {
+        test("the left coset of {0} is {0, 2}", () => {
+          const leftCoset = Zmod4Group.leftCoset(subgroup, new IntegerNumber(0))
+
+          expect(leftCoset.isEqualTo(subSet)).toBeTruthy()
+        })
+
+        test("the left coset of {1} is {1, 3}", () => {
+          const leftCoset = Zmod4Group.leftCoset(subgroup, new IntegerNumber(1))
+          const expected = new FiniteSet<IntegerNumber>([1, 3].map(x => new IntegerNumber(x)))
+
+          expect(leftCoset.isEqualTo(expected)).toBeTruthy()
+        })
+
+        test("the left coset of {2} is {0, 2}", () => {
+          const leftCoset = Zmod4Group.leftCoset(subgroup, new IntegerNumber(2))
+
+          expect(leftCoset.isEqualTo(subSet)).toBeTruthy()
+        })
+
+        test("the left coset of {3} is {1, 3}", () => {
+          const leftCoset = Zmod4Group.leftCoset(subgroup, new IntegerNumber(3))
+          const expected = new FiniteSet<IntegerNumber>([1, 3].map(x => new IntegerNumber(x)))
+
+          expect(leftCoset.isEqualTo(expected)).toBeTruthy()
+        })
+
+        test("the right coset of {0} is {0, 2}", () => {
+          const rightCoset = Zmod4Group.rightCoset(subgroup, new IntegerNumber(0))
+
+          expect(rightCoset.isEqualTo(subSet)).toBeTruthy()
+        })
+
+        test("the right coset of {1} is {1, 3}", () => {
+          const rightCoset = Zmod4Group.rightCoset(subgroup, new IntegerNumber(1))
+          const expected = new FiniteSet<IntegerNumber>([1, 3].map(x => new IntegerNumber(x)))
+
+          expect(rightCoset.isEqualTo(expected)).toBeTruthy()
+        })
       })
     })
   })
@@ -181,6 +222,34 @@ describe("FiniteGroup", () => {
     test("attempting to generating the group using an element not in the group throws an error", () => {
       expect(() => {
         Zmod2Group.generatesGroup(new IntegerNumber(3))
+      }).toThrow()
+    })
+
+    test("the left coset of an element not in the group throws an error", () => {
+      expect(() => {
+        Zmod2Group.leftCoset(Zmod2Group, new IntegerNumber(3))
+      }).toThrow()
+    })
+
+    test("the left coset with respect to a group that is not a subgroup throws an error", () => {
+      const Zmod4Group = ZmodNAdditionGroup(4)
+
+      expect(() => {
+        Zmod4Group.leftCoset(Zmod2Group, new IntegerNumber(1))
+      }).toThrow()
+    })
+
+    test("the right coset of an element not in the group throws an error", () => {
+      expect(() => {
+        Zmod2Group.rightCoset(Zmod2Group, new IntegerNumber(3))
+      }).toThrow()
+    })
+
+    test("the right coset with respect to a group that is not a subgroup throws an error", () => {
+      const Zmod4Group = ZmodNAdditionGroup(4)
+
+      expect(() => {
+        Zmod4Group.rightCoset(Zmod2Group, new IntegerNumber(1))
       }).toThrow()
     })
 

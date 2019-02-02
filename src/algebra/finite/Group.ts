@@ -1,4 +1,4 @@
-import { DoesNotSatisfyPropertyError, NotMemberOfException } from "../../common/CommonErrors"
+import { DoesNotSatisfyPropertyError, NotMemberOfException, NotSubgroupException } from "../../common/CommonErrors"
 import { FiniteBinaryOperation } from "../../common/functions/FiniteBinaryOperation"
 import { FiniteSet } from "../../common/sets/FiniteSet"
 import { Tuple } from "../../common/sets/Tuple"
@@ -246,6 +246,30 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
   }
 
   /**
+   * Returns the left coset of a particular element with a particular subgroup.
+   * @param subgroup The subgroup with which to form the left coset.
+   * @param element The element whose left coset is to be returned.
+   */
+  public leftCoset(subgroup: FiniteGroup<T>, element: T): FiniteSet<T> {
+    if (!subgroup.isSubgroupOf(this)) {
+      throw new NotSubgroupException("The parameter `subgroup` is not a subgroup of this group.")
+    } else if (!this.set.contains(element)) {
+      throw new NotMemberOfException("The parameter `element` is not an element of this group.")
+    }
+
+    const result = new FiniteSet<T>([])
+
+    for (let index = 0; index < subgroup.order; index++) {
+      const subgroupElement = subgroup.set.element(index)
+      const tuple = new Tuple([element, subgroupElement])
+
+      result.addElement(this.applyOperation(tuple))
+    }
+
+    return result
+  }
+
+  /**
    * Returns the order of a particular element of the group.
    * @param element The element whose order is to be returned.
    */
@@ -314,6 +338,30 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
     }
 
     return x
+  }
+
+  /**
+   * Returns the right coset of a particular element with a particular subgroup.
+   * @param subgroup The subgroup with which to form the right coset.
+   * @param element The element whose right coset is to be returned.
+   */
+  public rightCoset(subgroup: FiniteGroup<T>, element: T): FiniteSet<T> {
+    if (!subgroup.isSubgroupOf(this)) {
+      throw new NotSubgroupException("The parameter `subgroup` is not a subgroup of this group.")
+    } else if (!this.set.contains(element)) {
+      throw new NotMemberOfException("The parameter `element` is not an element of this group.")
+    }
+
+    const result = new FiniteSet<T>([])
+
+    for (let index = 0; index < subgroup.order; index++) {
+      const subgroupElement = subgroup.set.element(index)
+      const tuple = new Tuple([subgroupElement, element])
+
+      result.addElement(this.applyOperation(tuple))
+    }
+
+    return result
   }
 
   /**
