@@ -47,6 +47,13 @@ describe("FiniteGroup", () => {
       expect(Sym4Group.centerGroup().isEqualTo(Sym4Group.trivialSubgroup())).toBeTruthy()
     })
 
+    test("cyclic", () => {
+      expect(Alt3Group.isCyclic()).toBeTruthy()
+      expect(dihedral8Group.isCyclic()).toBeFalsy()
+      expect(Sym3Group.isCyclic()).toBeFalsy()
+      expect(Zmod2Group.isCyclic()).toBeTruthy()
+    })
+
     test("order", () => {
       expect(dihedral8Group.order).toBe(8)
       expect(Sym4Group.order).toBe(24)
@@ -168,6 +175,12 @@ describe("FiniteGroup", () => {
     test("the commutator of an element not in the group throws an error", () => {
       expect(() => {
         Zmod2Group.commutator(new IntegerNumber(0), new IntegerNumber(3))
+      }).toThrow()
+    })
+
+    test("attempting to generating the group using an element not in the group throws an error", () => {
+      expect(() => {
+        Zmod2Group.generatesGroup(new IntegerNumber(3))
       }).toThrow()
     })
 

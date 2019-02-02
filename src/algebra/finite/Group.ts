@@ -166,6 +166,22 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
   }
 
   /**
+   * Determines whether a given element generates the group.
+   * @param element The element to test as a generator of the group.
+   */
+  public generatesGroup(element: T): boolean {
+    if (!this.set.contains(element)) {
+      throw new NotMemberOfException("The parameter `element` is not a member of this group.")
+    }
+
+    if (this.orderOf(element) === this.order) {
+      return true
+    }
+
+    return false
+  }
+
+  /**
    * Determines whether this group is abelian. In other words, if its operation is commutative.
    */
   public isAbelian(): boolean {
@@ -174,6 +190,27 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
     }
 
     return this.groupProperties[FiniteGroupPropertiesKeys.Abelian]
+  }
+
+  /**
+   * Determines whether or not this group is cyclic.
+   */
+  public isCyclic(): boolean {
+    if (!(FiniteGroupPropertiesKeys.Cyclic in this.groupProperties)) {
+      for (let index = 0; index < this.order; index++) {
+        const element = this.set.element(index)
+
+        if (this.generatesGroup(element)) {
+          this.groupProperties[FiniteGroupPropertiesKeys.Cyclic] = true
+          return true
+        }
+      }
+
+      this.groupProperties[FiniteGroupPropertiesKeys.Cyclic] = false
+      return false
+    }
+
+    return this.groupProperties[FiniteGroupPropertiesKeys.Cyclic]
   }
 
   /**
