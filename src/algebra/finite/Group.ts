@@ -2,6 +2,7 @@ import { DoesNotSatisfyPropertyError, NotMemberOfException } from "../../common/
 import { FiniteBinaryOperation } from "../../common/functions/FiniteBinaryOperation"
 import { FiniteSet } from "../../common/sets/FiniteSet"
 import { Tuple } from "../../common/sets/Tuple"
+import { findFactors } from "../../common/util"
 import { FiniteMonoid } from "./Monoid"
 
 enum FiniteGroupPropertiesKeys {
@@ -224,7 +225,7 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
     // The order of an element must divide the order of the group,
     //   thus we only need to check those powers.
     let currentPower = element
-    const possibleOrders = this.findFactors(this.order)
+    const possibleOrders = findFactors(this.order)
 
     for (let index = 1; index < possibleOrders.length; index++) {
       const possibleOrder = possibleOrders[index]
@@ -288,28 +289,6 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
     const newOperation = this.operation.restriction(newSet)
 
     return FiniteGroup.KnownFiniteGroup(newSet, newOperation, this.subgroupClosedProperties())
-  }
-
-  /**
-   * Finds all factors of a given number.
-   * @param value The integer for which to find the factors.
-   */
-  private findFactors(value: number): number[] {
-    if (!Number.isInteger(value)) {
-      throw new Error("Expected `value` to be an integer.")
-    }
-
-    const result: number[] = []
-
-    result.push(1)
-
-    for (let index = 2; index < value + 1; index++) {
-      if (value % index === 0) {
-        result.push(index)
-      }
-    }
-
-    return result
   }
 
   /**
