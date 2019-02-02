@@ -215,6 +215,19 @@ describe("FiniteGroup", () => {
     })
   })
 
+  test("the quotient of Zmod6 and {0, 3} is as expected", () => {
+    const Zmod6Group = ZmodNAdditionGroup(6)
+    const subset = new FiniteSet<IntegerNumber>([0, 3].map(x => new IntegerNumber(x)))
+    const restriction = Zmod6Group.operation.restriction(subset)
+    const subgroup = new FiniteGroup(subset, restriction)
+
+    const secondElement = new FiniteSet<IntegerNumber>([1, 4].map(x => new IntegerNumber(x)))
+    const thirdElement = new FiniteSet<IntegerNumber>([2, 5].map(x => new IntegerNumber(x)))
+    const expected = new FiniteSet([subset, secondElement, thirdElement])
+
+    expect(Zmod6Group.quotientGroup(subgroup).set.isEqualTo(expected)).toBeTruthy()
+  })
+
   test("the trivial subgroup of a known abelian group is abelian", () => {
     const Zmod2Group = ZmodNAdditionGroup(2)
 

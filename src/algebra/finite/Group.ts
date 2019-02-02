@@ -3,16 +3,20 @@ import { FiniteBinaryOperation } from "../../common/functions/FiniteBinaryOperat
 import { FiniteSet } from "../../common/sets/FiniteSet"
 import { Tuple } from "../../common/sets/Tuple"
 import { findFactors } from "../../common/util"
+import { QuotientGroupMap } from "./examples/maps/QuotientGroupMap"
 import { FiniteMonoid } from "./Monoid"
 
 enum FiniteGroupPropertiesKeys {
   Abelian = "abelian",
+  Ambivalent = "ambivalent",
   Cyclic = "cyclic",
   Dedekind = "dedekind",
   Metabelian = "metabelian",
   Metanilpotent = "metanilpotent",
   Nilpotent = "nilpotent",
+  Perfect = "perfect",
   Solvable = "solvable",
+  TGroup = "t-group",
   TStarGroup = "t*-group",
 }
 
@@ -374,6 +378,29 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
   }
 
   /**
+   * Returns the quotient group formed from this group modulo a normal subgroup.
+   * @param noramlSubgroup The normal subgroup which is to be used as the divisor in the quotient construction
+   */
+  public quotientGroup(noramlSubgroup: FiniteGroup<T>): FiniteGroup<FiniteSet<T>> {
+    if (!noramlSubgroup.isNormalSubgroupOf(this)) {
+      throw new NotSubgroupException("The parameter `normalSubgroup` is not a normal subgroup of this group.")
+    }
+
+    const set = new FiniteSet<FiniteSet<T>>([])
+
+    for (let index = 0; index < this.order; index++) {
+      const element = this.set.element(index)
+
+      set.addElement(this.leftCoset(noramlSubgroup, element))
+    }
+
+    const map = new QuotientGroupMap(this.operation.relation)
+    const operation = new FiniteBinaryOperation(set, map)
+
+    return FiniteGroup.KnownFiniteGroup(set, operation, this.quotientClosedProperties())
+  }
+
+  /**
    * Returns the right coset of a particular element with a particular subgroup.
    * @param subgroup The subgroup with which to form the right coset.
    * @param element The element whose right coset is to be returned.
@@ -419,6 +446,40 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
     const newOperation = this.operation.restriction(newSet)
 
     return FiniteGroup.KnownFiniteGroup(newSet, newOperation, this.subgroupClosedProperties())
+  }
+
+  /**
+   * Returns a dictionary of all the properties known about this group that are inherited by any quotient group.
+   */
+  private quotientClosedProperties(): { [key: string]: boolean } {
+    const result: { [key: string]: boolean } = {}
+
+    function checkAndAddProperty(property: string, containingGroup: FiniteGroup<T>) {
+      if (property in containingGroup.groupProperties) {
+        if (containingGroup.groupProperties[property]) {
+          result[property] = true
+        }
+      }
+    }
+
+    const stableProperties = [
+      FiniteGroupPropertiesKeys.Abelian,
+      FiniteGroupPropertiesKeys.Ambivalent,
+      FiniteGroupPropertiesKeys.Cyclic,
+      FiniteGroupPropertiesKeys.Dedekind,
+      FiniteGroupPropertiesKeys.Metabelian,
+      FiniteGroupPropertiesKeys.Metanilpotent,
+      FiniteGroupPropertiesKeys.Nilpotent,
+      FiniteGroupPropertiesKeys.Perfect,
+      FiniteGroupPropertiesKeys.Solvable,
+      FiniteGroupPropertiesKeys.TGroup,
+    ]
+
+    stableProperties.forEach(property => {
+      checkAndAddProperty(property, this)
+    })
+
+    return result
   }
 
   /**
