@@ -170,6 +170,28 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
   }
 
   /**
+   * Returns the conjugacy class of an element.
+   * @param element The element whose conjugacy class is to be returned.
+   */
+  public conjugacyClass(element: T): FiniteSet<T> {
+    if (!this.set.contains(element)) {
+      throw new NotMemberOfException("The parameter `element` is not a member of the group.")
+    }
+
+    const result = new FiniteSet<T>([])
+
+    for (let index = 0; index < this.order; index++) {
+      const currentElement = this.set.element(index)
+      const tuple1 = new Tuple([currentElement, element])
+      const tuple2 = new Tuple([this.applyOperation(tuple1), this.operation.inverseElement(currentElement)])
+
+      result.addElement(this.applyOperation(tuple2))
+    }
+
+    return result
+  }
+
+  /**
    * Determines whether a given element generates the group.
    * @param element The element to test as a generator of the group.
    */
@@ -419,6 +441,21 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
       const tuple = new Tuple([subgroupElement, element])
 
       result.addElement(this.applyOperation(tuple))
+    }
+
+    return result
+  }
+
+  /**
+   * Returns the set of all conjugacy classes of this group.
+   */
+  public setOfAllConjugacyClasses(): FiniteSet<FiniteSet<T>> {
+    const result = new FiniteSet<FiniteSet<T>>([])
+
+    for (let index = 0; index < this.order; index++) {
+      const element = this.set.element(index)
+
+      result.addElement(this.conjugacyClass(element))
     }
 
     return result

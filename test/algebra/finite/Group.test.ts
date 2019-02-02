@@ -68,6 +68,12 @@ describe("FiniteGroup", () => {
       expect(Sym4Group.centerGroup().isEqualTo(Sym4Group.trivialSubgroup())).toBeTruthy()
     })
 
+    test("conjugacy classes", () => {
+      expect(dihedral8Group.setOfAllConjugacyClasses().cardinality()).toBe(5)
+      expect(Sym3Group.setOfAllConjugacyClasses().cardinality()).toBe(3)
+      expect(Sym4Group.setOfAllConjugacyClasses().cardinality()).toBe(5)
+    })
+
     test("cyclic", () => {
       expect(Alt3Group.isCyclic()).toBeTruthy()
       expect(dihedral8Group.isCyclic()).toBeFalsy()
@@ -218,6 +224,23 @@ describe("FiniteGroup", () => {
       const centralizer = dihedral8Group.centralizer(dihedral8Group.set)
 
       expect(center.isEqualTo(centralizer)).toBeTruthy()
+    })
+
+    test("the order of the elements in a conjugacy class are the same", () => {
+      const conjugacyClasses = dihedral8Group.setOfAllConjugacyClasses()
+
+      for (let classIndex = 0; classIndex < conjugacyClasses.cardinality(); classIndex++) {
+        const conjugacyClass = conjugacyClasses.element(classIndex)
+
+        const orderSet = new FiniteSet<IntegerNumber>([])
+        for (let elementIndex = 0; elementIndex < conjugacyClass.cardinality(); elementIndex++) {
+          const element = conjugacyClass.element(elementIndex)
+
+          orderSet.addElement(new IntegerNumber(dihedral8Group.orderOf(element)))
+        }
+
+        expect(orderSet.cardinality()).toBe(1)
+      }
     })
   })
 
