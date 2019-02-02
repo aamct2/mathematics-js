@@ -222,6 +222,39 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
   }
 
   /**
+   * Determines whether this group is a normal subgroup of another group.
+   * @param supergroup The supergroup (or ambient group) to test if this group is a normal subgroup of it.
+   */
+  public isNormalSubgroupOf(supergroup: FiniteGroup<T>): boolean {
+    if (!this.isSubgroupOf(supergroup)) {
+      return false
+    }
+
+    // Check to see if it is the whole group, which is trivialy normal
+    if (this.order === supergroup.order) {
+      return true
+    }
+
+    // Check to see if it is of index 2, which would quickly imply that it is normal
+    if (this.subgroupIndex(supergroup) === 2) {
+      return true
+    }
+
+    // Alright, crank it the long way
+    for (let index = 0; index < supergroup.order; index++) {
+      const element = supergroup.set.element(index)
+      const leftCoset = supergroup.leftCoset(this, element)
+      const rightCoset = supergroup.rightCoset(this, element)
+
+      if (!leftCoset.isEqualTo(rightCoset)) {
+        return false
+      }
+    }
+
+    return true
+  }
+
+  /**
    * Determines whether this group is a subgroup of another group.
    * @param rhs The supergroup (or ambient group) to test if this group is a subgroup of it.
    */
@@ -362,6 +395,18 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
     }
 
     return result
+  }
+
+  /**
+   * Returns the index of this group as a subgroup of a given supergroup.
+   * @param supergroup The supergroup with respect to which the index is to be returned.
+   */
+  public subgroupIndex(supergroup: FiniteGroup<T>): number {
+    if (!this.isSubgroupOf(supergroup)) {
+      throw new NotSubgroupException("This group is not a subgroup of the parameter `superGroup`.")
+    }
+
+    return this.order / supergroup.order
   }
 
   /**

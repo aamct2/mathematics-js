@@ -29,11 +29,26 @@ describe("FiniteGroup", () => {
   })
 
   describe("given common groups", () => {
+    // Order: 3
+    // Simple, Abelian, Nilpotent, Solvable
     const Alt3Group = AlternatingGroup(3)
+
+    // Order: 8
+    // non-Abelian, Nilpotent, Solvable, non-T-Group
     const dihedral8Group = Dihedral8Group()
+
+    // Order: 6
+    // non-Abelian, non-Nilpotent, Solvable
+    // (Not sure, but the system claims Sym3Group is metanilpotent. Need to verify)
     const Sym3Group = SymmetricGroup(3)
+
+    // Order: 24
     const Sym4Group = SymmetricGroup(4)
+
+    // Order: 2
     const Zmod2Group = ZmodNAdditionGroup(2)
+
+    // Order: 4
     const Zmod4Group = ZmodNAdditionGroup(4)
 
     test("abelian", () => {
@@ -54,9 +69,19 @@ describe("FiniteGroup", () => {
       expect(Zmod2Group.isCyclic()).toBeTruthy()
     })
 
+    test("normal subgroup", () => {
+      expect(Zmod4Group.trivialSubgroup().isNormalSubgroupOf(Zmod4Group)).toBeTruthy()
+      expect(Zmod4Group.isNormalSubgroupOf(Zmod4Group)).toBeTruthy()
+      expect(dihedral8Group.centerGroup().isNormalSubgroupOf(dihedral8Group)).toBeTruthy()
+    })
+
     test("order", () => {
+      expect(Alt3Group.order).toBe(3)
       expect(dihedral8Group.order).toBe(8)
+      expect(Sym3Group.order).toBe(6)
       expect(Sym4Group.order).toBe(24)
+      expect(Zmod2Group.order).toBe(2)
+      expect(Zmod4Group.order).toBe(4)
     })
 
     test("order of an element", () => {
