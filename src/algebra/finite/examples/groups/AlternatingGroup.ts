@@ -1,9 +1,7 @@
-import { IntegerNumber } from "../../../../common/numbers/IntegerNumber"
-import { RealNumber } from "../../../../common/numbers/RealNumber"
-import { FiniteSet } from "../../../../common/sets/FiniteSet"
+import { RealNumber } from "../../../../common/numbers"
+import { FiniteSet } from "../../../../common/sets"
 import { SquareMatrix } from "../../../SquareMatrix"
-import { FiniteGroup } from "../../Group"
-import { SquareMatrixNMultiplicationMap } from "../maps/SquareMatrixNMultiplicationMap"
+import { FiniteGroup } from "../../structures/Group"
 import { SymmetricGroup } from "./SymmetricGroup"
 
 /**

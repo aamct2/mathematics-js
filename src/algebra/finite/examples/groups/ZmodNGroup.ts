@@ -1,9 +1,8 @@
-import { FiniteBinaryOperation } from "../../../../common/functions/FiniteBinaryOperation"
-import { IntegerNumber } from "../../../../common/numbers/IntegerNumber"
-import { FiniteSet } from "../../../../common/sets/FiniteSet"
-import { FiniteGroup } from "../../Group"
-import { ZmodNAdditionMap } from "../maps/ZmodNAdditionMap"
-import { ZmodNMultiplicationMap } from "../maps/ZmodNMultiplicationMap"
+import { FiniteBinaryOperation } from "../../../../common/functions"
+import { IntegerNumber } from "../../../../common/numbers"
+import { FiniteSet } from "../../../../common/sets"
+import { FiniteGroup } from "../../structures/Group"
+import { ZmodNAdditionMap, ZmodNMultiplicationMap } from "../maps"
 
 /**
  * Returns the ZmodN group of order `n` with addition.

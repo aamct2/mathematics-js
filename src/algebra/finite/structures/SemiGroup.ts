@@ -1,6 +1,7 @@
-import { DoesNotSatisfyPropertyError } from "../../common/CommonErrors"
-import { FiniteBinaryOperation } from "../../common/functions/FiniteBinaryOperation"
-import { FiniteSet } from "../../common/sets/FiniteSet"
+import { DoesNotSatisfyPropertyError } from "../../../common/CommonErrors"
+import { FiniteBinaryOperation } from "../../../common/functions"
+import { IEquatable } from "../../../common/interfaces"
+import { FiniteSet } from "../../../common/sets"
 import { FiniteMagma } from "./Magma"
 
 enum FiniteSemiGroupPropertyKeys {

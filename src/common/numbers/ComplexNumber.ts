@@ -1,3 +1,5 @@
+import { IComparable, IDivideable, IEquatable, ISubtractable } from "../interfaces"
+
 /**
  * Represents a complex number that is usable by other Mathematics classes.
  */

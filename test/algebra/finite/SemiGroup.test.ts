@@ -1,10 +1,8 @@
-import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples/maps/ZmodNAdditionMap"
-import { ZmodNMultiplicationMap } from "../../../src/algebra/finite/examples/maps/ZmodNMultiplicationMap"
-import { FiniteSemiGroup } from "../../../src/algebra/finite/SemiGroup"
-import { FiniteBinaryOperation } from "../../../src/common/functions/FiniteBinaryOperation"
-import { IntegerNumber } from "../../../src/common/numbers/IntegerNumber"
-import { FiniteSet } from "../../../src/common/sets/FiniteSet"
-import { Tuple } from "../../../src/common/sets/Tuple"
+import { ZmodNAdditionMap, ZmodNMultiplicationMap } from "../../../src/algebra/finite/examples/maps"
+import { FiniteSemiGroup } from "../../../src/algebra/finite/structures"
+import { FiniteBinaryOperation, IMap } from "../../../src/common/functions"
+import { IntegerNumber } from "../../../src/common/numbers"
+import { FiniteSet, Tuple } from "../../../src/common/sets"
 
 describe("FiniteSemiGroup", () => {
   const Zmod2Set = new FiniteSet<IntegerNumber>([0, 1].map(x => new IntegerNumber(x)))

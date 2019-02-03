@@ -1,7 +1,7 @@
-import { DoesNotSatisfyPropertyError } from "../../common/CommonErrors"
-import { FiniteBinaryOperation } from "../../common/functions/FiniteBinaryOperation"
-import { FiniteSet } from "../../common/sets/FiniteSet"
-import { Tuple } from "../../common/sets/Tuple"
+import { DoesNotSatisfyPropertyError } from "../../../common/CommonErrors"
+import { FiniteBinaryOperation } from "../../../common/functions"
+import { IEquatable } from "../../../common/interfaces"
+import { FiniteSet, Tuple } from "../../../common/sets"
 
 /**
  * Represents a finite magma with elements of type T.

@@ -1,9 +1,7 @@
-import { LeftZeroNMap } from "../../../src/algebra/finite/examples/maps/LeftZeroNMap"
-import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples/maps/ZmodNAdditionMap"
-import { ZmodNMultiplicationMap } from "../../../src/algebra/finite/examples/maps/ZmodNMultiplicationMap"
-import { FiniteBinaryOperation } from "../../../src/common/functions/FiniteBinaryOperation"
-import { IntegerNumber } from "../../../src/common/numbers/IntegerNumber"
-import { FiniteSet } from "../../../src/common/sets/FiniteSet"
+import { LeftZeroNMap, ZmodNAdditionMap, ZmodNMultiplicationMap } from "../../../src/algebra/finite/examples/maps"
+import { FiniteBinaryOperation } from "../../../src/common/functions"
+import { IntegerNumber } from "../../../src/common/numbers"
+import { FiniteSet } from "../../../src/common/sets"
 
 describe("FiniteBinaryOperation", () => {
   describe("given Zmod2", () => {

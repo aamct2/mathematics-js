@@ -1,3 +1,5 @@
+import { IComparable, IDivideable, IEquatable, ISubtractable } from "../interfaces"
+
 export class RealNumber
   implements IComparable<RealNumber>, IEquatable<RealNumber>, ISubtractable<RealNumber>, IDivideable<RealNumber> {
   public value: number

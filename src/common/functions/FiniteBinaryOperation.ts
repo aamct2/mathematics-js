@@ -1,9 +1,10 @@
 import * as _ from "lodash"
 import { SquareMatrix } from "../../algebra/SquareMatrix"
-import { RealNumber } from "../numbers/RealNumber"
-import { FiniteSet } from "../sets/FiniteSet"
-import { Tuple } from "../sets/Tuple"
+import { IEquatable } from "../interfaces"
+import { RealNumber } from "../numbers"
+import { FiniteSet, Tuple } from "../sets"
 import { FiniteFunction, FunctionPropertiesKeys } from "./FiniteFunction"
+import { IMap } from "./Map"
 
 enum FiniteBinaryOperationPropertyKeys {
   Associativity = "associativity",

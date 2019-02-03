@@ -1,4 +1,5 @@
 import * as _ from "lodash"
+import { IEquatable } from "../interfaces"
 import { Tuple } from "./Tuple"
 
 export class FiniteSet<T extends IEquatable<T>> implements IEquatable<FiniteSet<T>> {

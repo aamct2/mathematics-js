@@ -1,4 +1,4 @@
-import { Tuple } from "../../../src/common/sets/Tuple"
+import { Tuple } from "../../../src/common/sets"
 
 describe("Tuple", () => {
   test("(0, 1) is not eqaul to (0, 1, 2)", () => {

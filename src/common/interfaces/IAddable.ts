@@ -1,6 +1,6 @@
 /**
  * Defines a method for adding two elements together.
  */
-interface IAddable<T> {
+export interface IAddable<T> {
   add(rhs: T): T
 }

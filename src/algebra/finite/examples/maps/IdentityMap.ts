@@ -1,3 +1,6 @@
+import { IMap } from "../../../../common/functions"
+import { IEquatable } from "../../../../common/interfaces"
+
 /**
  * Maps any given element to itself.
  */

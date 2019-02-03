@@ -1,3 +1,5 @@
+import { IEquatable } from "../interfaces"
+
 /**
  * An ordered collection of elements (not neccessarily of the same type).
  */

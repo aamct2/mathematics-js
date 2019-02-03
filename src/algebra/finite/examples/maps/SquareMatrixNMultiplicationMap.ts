@@ -1,5 +1,7 @@
-import { IntegerNumber } from "../../../../common/numbers/IntegerNumber"
-import { Tuple } from "../../../../common/sets/Tuple"
+import { IMap } from "../../../../common/functions"
+import { IComparable, IDivideable, ISubtractable } from "../../../../common/interfaces"
+import { IntegerNumber } from "../../../../common/numbers"
+import { Tuple } from "../../../../common/sets"
 import { SquareMatrix } from "../../../SquareMatrix"
 
 /**

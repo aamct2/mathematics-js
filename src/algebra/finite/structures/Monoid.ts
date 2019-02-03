@@ -1,8 +1,7 @@
-import { DoesNotSatisfyPropertyError } from "../../common/CommonErrors"
-import { FiniteBinaryOperation } from "../../common/functions/FiniteBinaryOperation"
-import { FiniteFunction } from "../../common/functions/FiniteFunction"
-import { FiniteSet } from "../../common/sets/FiniteSet"
-import { Tuple } from "../../common/sets/Tuple"
+import { DoesNotSatisfyPropertyError } from "../../../common/CommonErrors"
+import { FiniteBinaryOperation, FiniteFunction } from "../../../common/functions"
+import { IEquatable } from "../../../common/interfaces"
+import { FiniteSet, Tuple } from "../../../common/sets"
 import { FiniteSemiGroup } from "./SemiGroup"
 
 /**

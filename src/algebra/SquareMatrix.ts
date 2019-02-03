@@ -1,3 +1,4 @@
+import { IComparable, IDivideable, IEquatable, IMultipliable, ISubtractable } from "../common/interfaces"
 import { Matrix } from "./Matrix"
 
 export class SquareMatrix<T extends IComparable<T> & ISubtractable<T> & IDivideable<T>> extends Matrix<T>

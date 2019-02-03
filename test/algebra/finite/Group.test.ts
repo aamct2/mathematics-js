@@ -1,16 +1,16 @@
-import { AlternatingGroup } from "../../../src/algebra/finite/examples/groups/AlternatingGroup"
-import { Dihedral8Group } from "../../../src/algebra/finite/examples/groups/Dihedral8Group"
-import { QuaternionGroup } from "../../../src/algebra/finite/examples/groups/QuaternionGroup"
-import { SymmetricGroup } from "../../../src/algebra/finite/examples/groups/SymmetricGroup"
-import { ZmodNAdditionGroup } from "../../../src/algebra/finite/examples/groups/ZmodNGroup"
-import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples/maps/ZmodNAdditionMap"
-import { ZmodNMultiplicationMap } from "../../../src/algebra/finite/examples/maps/ZmodNMultiplicationMap"
-import { FiniteGroup } from "../../../src/algebra/finite/Group"
-import { SquareMatrix } from "../../../src/algebra/SquareMatrix"
-import { FiniteBinaryOperation } from "../../../src/common/functions/FiniteBinaryOperation"
-import { IntegerNumber } from "../../../src/common/numbers/IntegerNumber"
-import { RealNumber } from "../../../src/common/numbers/RealNumber"
-import { FiniteSet } from "../../../src/common/sets/FiniteSet"
+import { SquareMatrix } from "../../../src/algebra"
+import {
+  AlternatingGroup,
+  Dihedral8Group,
+  QuaternionGroup,
+  SymmetricGroup,
+  ZmodNAdditionGroup,
+} from "../../../src/algebra/finite/examples/groups"
+import { ZmodNAdditionMap, ZmodNMultiplicationMap } from "../../../src/algebra/finite/examples/maps"
+import { FiniteGroup } from "../../../src/algebra/finite/structures"
+import { FiniteBinaryOperation } from "../../../src/common/functions"
+import { IntegerNumber, RealNumber } from "../../../src/common/numbers"
+import { FiniteSet } from "../../../src/common/sets"
 
 describe("FiniteGroup", () => {
   test("(Zmod2, +) is a group", () => {

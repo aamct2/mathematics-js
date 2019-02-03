@@ -1,5 +1,5 @@
-import { SquareMatrix } from "../../src/algebra/SquareMatrix"
-import { RealNumber } from "../../src/common/numbers/RealNumber"
+import { SquareMatrix } from "../../src/algebra"
+import { RealNumber } from "../../src/common/numbers"
 
 describe("SquareMatrix", () => {
   describe("Given the matrix [[1, 3], [5, 11]]", () => {

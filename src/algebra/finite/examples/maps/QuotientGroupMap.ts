@@ -1,5 +1,6 @@
-import { FiniteSet } from "../../../../common/sets/FiniteSet"
-import { Tuple } from "../../../../common/sets/Tuple"
+import { IMap } from "../../../../common/functions"
+import { IEquatable } from "../../../../common/interfaces"
+import { FiniteSet, Tuple } from "../../../../common/sets"
 
 /**
  * The map for a quotient group.

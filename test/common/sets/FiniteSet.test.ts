@@ -1,6 +1,5 @@
-import { RealNumber } from "../../../src/common/numbers/RealNumber"
-import { FiniteSet } from "../../../src/common/sets/FiniteSet"
-import { IntegerNumber } from "../../../src/common/numbers/IntegerNumber"
+import { IntegerNumber, RealNumber } from "../../../src/common/numbers"
+import { FiniteSet } from "../../../src/common/sets"
 
 describe("FiniteSets", () => {
   const numberSet = new FiniteSet<RealNumber>([1, 2, 3].map(x => new RealNumber(x)))

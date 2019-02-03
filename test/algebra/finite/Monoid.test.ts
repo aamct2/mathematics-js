@@ -1,14 +1,14 @@
-import { IdentityMap } from "../../../src/algebra/finite/examples/maps/IdentityMap"
-import { IntegerMultiplicationMap } from "../../../src/algebra/finite/examples/maps/IntegerMultiplicationMap"
-import { LeftZeroNMap } from "../../../src/algebra/finite/examples/maps/LeftZeroNMap"
-import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples/maps/ZmodNAdditionMap"
-import { ZmodNMultiplicationMap } from "../../../src/algebra/finite/examples/maps/ZmodNMultiplicationMap"
-import { FiniteMonoid } from "../../../src/algebra/finite/Monoid"
-import { FiniteSemiGroup } from "../../../src/algebra/finite/SemiGroup"
-import { FiniteBinaryOperation } from "../../../src/common/functions/FiniteBinaryOperation"
-import { FiniteFunction } from "../../../src/common/functions/FiniteFunction"
-import { IntegerNumber } from "../../../src/common/numbers/IntegerNumber"
-import { FiniteSet } from "../../../src/common/sets/FiniteSet"
+import {
+  IdentityMap,
+  IntegerMultiplicationMap,
+  LeftZeroNMap,
+  ZmodNAdditionMap,
+  ZmodNMultiplicationMap,
+} from "../../../src/algebra/finite/examples/maps"
+import { FiniteMonoid, FiniteSemiGroup } from "../../../src/algebra/finite/structures"
+import { FiniteBinaryOperation, FiniteFunction, IMap } from "../../../src/common/functions"
+import { IntegerNumber } from "../../../src/common/numbers"
+import { FiniteSet } from "../../../src/common/sets"
 
 describe("FiniteMonoid", () => {
   const Zmod2Set = new FiniteSet<IntegerNumber>([0, 1].map(x => new IntegerNumber(x)))

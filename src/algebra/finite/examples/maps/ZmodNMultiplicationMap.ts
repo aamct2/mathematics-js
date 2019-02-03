@@ -1,5 +1,6 @@
-import { IntegerNumber } from "../../../../common/numbers/IntegerNumber"
-import { Tuple } from "../../../../common/sets/Tuple"
+import { IMap } from "../../../../common/functions"
+import { IntegerNumber } from "../../../../common/numbers"
+import { Tuple } from "../../../../common/sets"
 
 export class ZmodNMultiplicationMap implements IMap<Tuple, IntegerNumber> {
   public readonly dimension: IntegerNumber

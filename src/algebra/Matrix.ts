@@ -1,4 +1,4 @@
-import { RealNumber } from "../common/numbers/RealNumber"
+import { IComparable, IDivideable, IEquatable, IMultipliable, ISubtractable } from "../common/interfaces"
 
 /**
  * Represents a matrix with elements of type T.

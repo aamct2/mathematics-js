@@ -1,3 +1,5 @@
+import { IComparable, IEquatable, IMultiplicativeIdentity, ISubtractable } from "../interfaces"
+
 export class IntegerNumber
   implements
     IComparable<IntegerNumber>,

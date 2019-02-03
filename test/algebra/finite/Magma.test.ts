@@ -1,9 +1,8 @@
-import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples/maps/ZmodNAdditionMap"
-import { FiniteMagma } from "../../../src/algebra/finite/Magma"
-import { FiniteBinaryOperation } from "../../../src/common/functions/FiniteBinaryOperation"
-import { IntegerNumber } from "../../../src/common/numbers/IntegerNumber"
-import { FiniteSet } from "../../../src/common/sets/FiniteSet"
-import { Tuple } from "../../../src/common/sets/Tuple"
+import { ZmodNAdditionMap } from "../../../src/algebra/finite/examples/maps"
+import { FiniteMagma } from "../../../src/algebra/finite/structures"
+import { FiniteBinaryOperation } from "../../../src/common/functions"
+import { IntegerNumber } from "../../../src/common/numbers"
+import { FiniteSet, Tuple } from "../../../src/common/sets"
 
 describe("FiniteMagma", () => {
   const Zmod2Set = new FiniteSet<IntegerNumber>([0, 1].map(x => new IntegerNumber(x)))

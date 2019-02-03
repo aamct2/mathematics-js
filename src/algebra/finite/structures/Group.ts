@@ -3,12 +3,12 @@ import {
   NotMemberOfException,
   NotSubgroupException,
   UndefinedException,
-} from "../../common/CommonErrors"
-import { FiniteBinaryOperation } from "../../common/functions/FiniteBinaryOperation"
-import { FiniteSet } from "../../common/sets/FiniteSet"
-import { Tuple } from "../../common/sets/Tuple"
-import { findFactors } from "../../common/util"
-import { QuotientGroupMap } from "./examples/maps/QuotientGroupMap"
+} from "../../../common/CommonErrors"
+import { FiniteBinaryOperation, IMap } from "../../../common/functions"
+import { IEquatable } from "../../../common/interfaces"
+import { FiniteSet, Tuple } from "../../../common/sets"
+import { findFactors } from "../../../common/util"
+import { QuotientGroupMap } from "../examples/maps"
 import { FiniteMonoid } from "./Monoid"
 
 enum FiniteGroupPropertiesKeys {

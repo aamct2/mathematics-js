@@ -1,3 +1,6 @@
+import { IMap } from "../../../../common/functions"
+import { IAddable, IEquatable, IMultiplicativeIdentity } from "../../../../common/interfaces"
+
 /**
  * Increments the value (using addition) by its multiplicative identity.
  */

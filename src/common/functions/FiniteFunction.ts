@@ -1,4 +1,6 @@
-import { FiniteSet } from "../sets/FiniteSet"
+import { IEquatable } from "../interfaces"
+import { FiniteSet } from "../sets"
+import { IMap } from "./Map"
 
 export enum FunctionPropertiesKeys {
   Bijective = "bijective",

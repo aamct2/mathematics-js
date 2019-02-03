@@ -1,10 +1,9 @@
-import { FiniteBinaryOperation } from "../../../../common/functions/FiniteBinaryOperation"
-import { IntegerNumber } from "../../../../common/numbers/IntegerNumber"
-import { RealNumber } from "../../../../common/numbers/RealNumber"
-import { FiniteSet } from "../../../../common/sets/FiniteSet"
+import { FiniteBinaryOperation } from "../../../../common/functions"
+import { IntegerNumber, RealNumber } from "../../../../common/numbers"
+import { FiniteSet } from "../../../../common/sets"
 import { SquareMatrix } from "../../../SquareMatrix"
-import { FiniteGroup } from "../../Group"
-import { SquareMatrixNMultiplicationMap } from "../maps/SquareMatrixNMultiplicationMap"
+import { FiniteGroup } from "../../structures/Group"
+import { SquareMatrixNMultiplicationMap } from "../maps"
 
 /**
  * Returns the symmetric group of order `n!`, as represented by permutation matrices.
