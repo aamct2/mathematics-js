@@ -13,6 +13,7 @@ enum FiniteGroupPropertiesKeys {
   Ambivalent = "ambivalent",
   Cyclic = "cyclic",
   Dedekind = "dedekind",
+  Hamiltonian = "hamiltonian",
   Metabelian = "metabelian",
   Metanilpotent = "metanilpotent",
   Nilpotent = "nilpotent",
@@ -284,6 +285,23 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
    */
   public isEqualTo(rhs: FiniteGroup<T>): boolean {
     return this.set.isEqualTo(rhs.set) && this.operation.isEqualTo(rhs.operation)
+  }
+
+  /**
+   * Determines whether or not this group is a Hamiltonian group. In other words, a non-abelian Dedekind group.
+   */
+  public isHamiltonian(): boolean {
+    if (!(FiniteGroupPropertiesKeys.Hamiltonian in this.groupProperties)) {
+      let result: boolean = false
+
+      if (this.isDedekind() && !this.isAbelian()) {
+        result = true
+      }
+
+      this.groupProperties[FiniteGroupPropertiesKeys.Hamiltonian] = result
+    }
+
+    return this.groupProperties[FiniteGroupPropertiesKeys.Hamiltonian]
   }
 
   /**

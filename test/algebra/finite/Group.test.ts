@@ -84,6 +84,12 @@ describe("FiniteGroup", () => {
     test("dedekind", () => {
       expect(QuatGroup.isDedekind()).toBeTruthy()
       expect(dihedral8Group.isDedekind()).toBeFalsy()
+      expect(Zmod4Group.isDedekind()).toBeTruthy()
+    })
+
+    test("hamiltonian", () => {
+      expect(QuatGroup.isHamiltonian()).toBeTruthy()
+      expect(Zmod4Group.isHamiltonian()).toBeFalsy()
     })
 
     test("normal subgroup", () => {
