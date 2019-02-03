@@ -394,8 +394,8 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
       return false
     }
 
-    // Check to see if it is the whole group, which is trivialy normal
-    if (this.order === supergroup.order) {
+    // Check to see if it is the whole group or the trivial group, which are trivialy normal
+    if (this.order === supergroup.order || this.order === 1) {
       return true
     }
 
@@ -405,7 +405,8 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
     }
 
     // Alright, crank it the long way
-    for (let index = 0; index < supergroup.order; index++) {
+    const numberOfElements = supergroup.order
+    for (let index = 0; index < numberOfElements; index++) {
       const element = supergroup.set.element(index)
       const leftCoset = supergroup.leftCoset(this, element)
       const rightCoset = supergroup.rightCoset(this, element)
@@ -473,7 +474,8 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
 
     const result = new FiniteSet<T>([])
 
-    for (let index = 0; index < subgroup.order; index++) {
+    const numberOfElements = subgroup.order
+    for (let index = 0; index < numberOfElements; index++) {
       const subgroupElement = subgroup.set.element(index)
       const tuple = new Tuple([element, subgroupElement])
 
@@ -591,7 +593,8 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
 
     const result = new FiniteSet<T>([])
 
-    for (let index = 0; index < subgroup.order; index++) {
+    const numberOfElements = subgroup.order
+    for (let index = 0; index < numberOfElements; index++) {
       const subgroupElement = subgroup.set.element(index)
       const tuple = new Tuple([subgroupElement, element])
 
@@ -635,7 +638,8 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
 
       const result = new FiniteSet<FiniteGroup<T>>()
 
-      for (let index = 0; index < allSubgroups.cardinality(); index++) {
+      const numberOfSubgroups = allSubgroups.cardinality()
+      for (let index = 0; index < numberOfSubgroups; index++) {
         const subgroup = allSubgroups.element(index)
 
         if (subgroup.isNormalSubgroupOf(this)) {
