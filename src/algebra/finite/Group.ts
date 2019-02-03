@@ -1,4 +1,9 @@
-import { DoesNotSatisfyPropertyError, NotMemberOfException, NotSubgroupException } from "../../common/CommonErrors"
+import {
+  DoesNotSatisfyPropertyError,
+  NotMemberOfException,
+  NotSubgroupException,
+  UndefinedException,
+} from "../../common/CommonErrors"
 import { FiniteBinaryOperation } from "../../common/functions/FiniteBinaryOperation"
 import { FiniteSet } from "../../common/sets/FiniteSet"
 import { Tuple } from "../../common/sets/Tuple"
@@ -47,6 +52,50 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
     newGroup.groupProperties = knownProperties
 
     return newGroup
+  }
+
+  /**
+   * Attempts to generate a set given a set of generators and a map.
+   * @param generatorSet The set of generators.
+   * @param map The map to apply on the set of generators.
+   */
+  private static GeneratedSet<G extends IEquatable<G>>(generatorSet: FiniteSet<G>, map: IMap<Tuple, G>): FiniteSet<G> {
+    let cycleIndex = 0
+    const result = generatorSet.clone()
+
+    while (cycleIndex < 3000) {
+      let foundNewElement = false
+
+      for (let firstIndex = result.cardinality() - 1; firstIndex >= 0; firstIndex--) {
+        const firstElement = result.element(firstIndex)
+
+        for (let secondIndex = result.cardinality() - 1; secondIndex >= 0; secondIndex--) {
+          const secondElement = result.element(secondIndex)
+          const tuple = new Tuple([firstElement, secondElement])
+
+          try {
+            const currentElement = map.applyMap(tuple)
+
+            if (!result.contains(currentElement)) {
+              result.addElement(currentElement)
+              foundNewElement = true
+            }
+          } catch (error) {
+            throw new UndefinedException(
+              `Error: In GeneratedSet, the tuple ${tuple}  is not a member of the domain of the map.`
+            )
+          }
+        }
+      }
+
+      if (!foundNewElement) {
+        return result
+      }
+
+      cycleIndex++
+    }
+
+    throw new Error("Error: GeneratedSet went on an infinite loop!")
   }
 
   private allNormalSubgroups?: FiniteSet<FiniteGroup<T>>
@@ -194,6 +243,38 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
     }
 
     return result
+  }
+
+  /**
+   * Returns the derived subgroup (also known as the commutator subgroup) of this group. In other words, the group whose elements are all the possible commutators of this group.
+   */
+  public derivedSubgroup(): FiniteGroup<T> {
+    const generatorSet = new FiniteSet<T>()
+    for (let firstIndex = 0; firstIndex < this.order; firstIndex++) {
+      const firstElement = this.set.element(firstIndex)
+
+      for (let secondIndex = 0; secondIndex < this.order; secondIndex++) {
+        const secondElement = this.set.element(secondIndex)
+
+        generatorSet.addElement(this.commutator(firstElement, secondElement))
+      }
+    }
+
+    try {
+      const set = FiniteGroup.GeneratedSet(generatorSet, this.operation.relation)
+
+      if (!set.contains(this.identity)) {
+        throw new Error(
+          "FiniteGroup.GeneratedSet created a set using the commutators of the group, but it does not include the identity element. This should not be possible."
+        )
+      }
+
+      const operation = this.operation.restriction(set)
+
+      return FiniteGroup.KnownFiniteGroup(set, operation, this.subgroupClosedProperties())
+    } catch (error) {
+      throw new Error("derivedSubgroup() is unable to generate a set based on the set of commutators.")
+    }
   }
 
   /**

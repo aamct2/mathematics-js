@@ -87,6 +87,11 @@ describe("FiniteGroup", () => {
       expect(Zmod4Group.isDedekind()).toBeTruthy()
     })
 
+    test("derived subgroup", () => {
+      expect(Zmod2Group.derivedSubgroup().isEqualTo(Zmod2Group.trivialSubgroup())).toBeTruthy()
+      expect(Sym3Group.derivedSubgroup().isEqualTo(Alt3Group)).toBeTruthy()
+    })
+
     test("hamiltonian", () => {
       expect(QuatGroup.isHamiltonian()).toBeTruthy()
       expect(Zmod4Group.isHamiltonian()).toBeFalsy()
@@ -96,6 +101,7 @@ describe("FiniteGroup", () => {
       expect(Zmod4Group.trivialSubgroup().isNormalSubgroupOf(Zmod4Group)).toBeTruthy()
       expect(Zmod4Group.isNormalSubgroupOf(Zmod4Group)).toBeTruthy()
       expect(dihedral8Group.centerGroup().isNormalSubgroupOf(dihedral8Group)).toBeTruthy()
+      expect(dihedral8Group.derivedSubgroup().isNormalSubgroupOf(dihedral8Group)).toBeTruthy()
     })
 
     test("order", () => {
