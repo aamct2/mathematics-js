@@ -419,6 +419,23 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
   }
 
   /**
+   * Determines whether this group is perfect. In other words, it is equal to its derived subgroup.
+   */
+  public isPerfect(): boolean {
+    if (!(FiniteGroupPropertiesKeys.Perfect in this.groupProperties)) {
+      let result = false
+
+      if (this.isEqualTo(this.derivedSubgroup())) {
+        result = true
+      }
+
+      this.groupProperties[FiniteGroupPropertiesKeys.Perfect] = result
+    }
+
+    return this.groupProperties[FiniteGroupPropertiesKeys.Perfect]
+  }
+
+  /**
    * Determines whether this group is a subgroup of another group.
    * @param rhs The supergroup (or ambient group) to test if this group is a subgroup of it.
    */

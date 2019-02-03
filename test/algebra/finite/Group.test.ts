@@ -34,6 +34,10 @@ describe("FiniteGroup", () => {
     // Simple, Abelian, Nilpotent, Solvable
     const Alt3Group = AlternatingGroup(3)
 
+    // Order: 60
+    // Perfect (actually, it's the smallest non-trivial perfect group)
+    // const Alt5Group = AlternatingGroup(5)
+
     // Order: 8
     // non-Abelian, Nilpotent, Solvable, non-T-Group
     const dihedral8Group = Dihedral8Group()
@@ -116,6 +120,12 @@ describe("FiniteGroup", () => {
     test("order of an element", () => {
       expect(dihedral8Group.orderOf(dihedral8Group.identity)).toBe(1)
       expect(Zmod4Group.orderOf(new IntegerNumber(3))).toBe(4)
+    })
+
+    test("perfect", () => {
+      expect(Zmod2Group.isPerfect()).toBeFalsy()
+      expect(Zmod2Group.trivialSubgroup().isPerfect()).toBeTruthy()
+      // expect(Alt5Group.isPerfect()).toBeTruthy()
     })
 
     test("subgroup", () => {
