@@ -6,7 +6,7 @@ import { FiniteSet, Tuple } from "../sets"
 import { FiniteFunction, FunctionPropertiesKeys } from "./FiniteFunction"
 import { IMap } from "./Map"
 
-enum FiniteBinaryOperationPropertyKeys {
+export enum FiniteBinaryOperationPropertyKeys {
   Associativity = "associativity",
   CayleyTable = "cayley table",
   Commutivity = "commutivity",
@@ -16,15 +16,33 @@ enum FiniteBinaryOperationPropertyKeys {
 }
 
 export class FiniteBinaryOperation<T extends IEquatable<T>> extends FiniteFunction<Tuple, T> {
-  private cayleyTable: number[][] = []
-  private identityElement?: T
-
   public get identity(): T | undefined {
     // First check to see if there is one and generate it along the way
     this.hasIdentity()
 
     return this.identityElement
   }
+
+  /**
+   * Constructors a new `FiniteBinaryOperation` and injects into it known properties.
+   * @param codomain The codomain of the new operation.
+   * @param relation The relation of the new operation.
+   * @param knownProperties The known properties of the new operation.
+   */
+  public static KnownFiniteBinaryOperation<G extends IEquatable<G>>(
+    codomain: FiniteSet<G>,
+    relation: IMap<Tuple, G>,
+    knownProperties: { [key: string]: boolean }
+  ): FiniteBinaryOperation<G> {
+    const newOperation = new FiniteBinaryOperation(codomain, relation)
+
+    newOperation.functionProperties = knownProperties
+
+    return newOperation
+  }
+
+  private cayleyTable: number[][] = []
+  private identityElement?: T
 
   public constructor(codomain: FiniteSet<T>, relation: IMap<Tuple, T>) {
     super(codomain.directProduct(codomain), codomain, relation)

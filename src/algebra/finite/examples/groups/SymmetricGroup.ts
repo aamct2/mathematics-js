@@ -1,4 +1,4 @@
-import { FiniteBinaryOperation } from "../../../../common/functions"
+import { FiniteBinaryOperation, FiniteBinaryOperationPropertyKeys } from "../../../../common/functions"
 import { IntegerNumber, RealNumber } from "../../../../common/numbers"
 import { FiniteSet } from "../../../../common/sets"
 import { SquareMatrix } from "../../../SquareMatrix"
@@ -52,10 +52,18 @@ export function SymmetricGroup(n: number): FiniteGroup<SquareMatrix<RealNumber>>
   visit(0)
 
   const newMap = new SquareMatrixNMultiplicationMap<RealNumber>(new IntegerNumber(n))
-  const newOperation = new FiniteBinaryOperation(matrixSet, newMap)
 
-  // Cheat here since we know it is associative and it has inverses for all elements
-  // TODO: FINISH!!!
+  // Cheat here since we know the operation has a number of properties
+  const properties: { [key: string]: boolean } = {}
+  properties[FiniteBinaryOperationPropertyKeys.Associativity] = true
+  properties[FiniteBinaryOperationPropertyKeys.Inverses] = true
+  if (n > 2) {
+    properties[FiniteBinaryOperationPropertyKeys.Commutivity] = false
+  } else {
+    properties[FiniteBinaryOperationPropertyKeys.Commutivity] = true
+  }
+
+  const newOperation = FiniteBinaryOperation.KnownFiniteBinaryOperation(matrixSet, newMap, properties)
 
   return new FiniteGroup(matrixSet, newOperation)
 }

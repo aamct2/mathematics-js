@@ -1,3 +1,4 @@
+import { FiniteBinaryOperation, FiniteBinaryOperationPropertyKeys } from "../../../../common/functions"
 import { RealNumber } from "../../../../common/numbers"
 import { FiniteSet } from "../../../../common/sets"
 import { SquareMatrix } from "../../../SquareMatrix"
@@ -23,10 +24,19 @@ export function AlternatingGroup(n: number): FiniteGroup<SquareMatrix<RealNumber
     }
   }
 
-  const newOperation = SymmetricNGroup.operation.restriction(newSet)
+  // Cheat here since we know the operation has a number of properties
+  const properties: { [key: string]: boolean } = {}
+  properties[FiniteBinaryOperationPropertyKeys.Associativity] = true
+  properties[FiniteBinaryOperationPropertyKeys.Inverses] = true
+  if (n === 3) {
+    properties[FiniteBinaryOperationPropertyKeys.Commutivity] = true
+  }
 
-  // Cheat here since we know it has inverses for all elements
-  // TODO: FINISH!!!
+  const newOperation = FiniteBinaryOperation.KnownFiniteBinaryOperation(
+    newSet,
+    SymmetricNGroup.operation.relation,
+    properties
+  )
 
   return new FiniteGroup(newSet, newOperation)
 }
