@@ -23,6 +23,7 @@ enum FiniteGroupPropertiesKeys {
   Metanilpotent = "metanilpotent",
   Nilpotent = "nilpotent",
   Perfect = "perfect",
+  Simple = "simple",
   Solvable = "solvable",
   TGroup = "t-group",
   TStarGroup = "t*-group",
@@ -434,6 +435,25 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
     }
 
     return this.groupProperties[FiniteGroupPropertiesKeys.Perfect]
+  }
+
+  /**
+   * Determines whether this group is simple. In other words, if this group's only normal subgroups is the group itself and the trivial subgroup.
+   */
+  public isSimple(): boolean {
+    if (!(FiniteGroupPropertiesKeys.Simple in this.groupProperties)) {
+      let result = false
+
+      // Check to make sure the group's only normal subgroups are itself and the trivial subgroup
+      // And check to make sure it is not the trivial group itself
+      if (this.setOfAllNormalSubgroups().cardinality() <= 2 && this.order > 1) {
+        result = true
+      }
+
+      this.groupProperties[FiniteGroupPropertiesKeys.Simple] = result
+    }
+
+    return this.groupProperties[FiniteGroupPropertiesKeys.Simple]
   }
 
   /**

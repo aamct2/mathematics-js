@@ -135,6 +135,12 @@ describe("FiniteGroup", () => {
       // expect(Alt5Group.isPerfect()).toBeTruthy()
     })
 
+    test("simple", () => {
+      expect(Alt3Group.isSimple()).toBeTruthy()
+      expect(Zmod2Group.isSimple()).toBeTruthy()
+      expect(Zmod4Group.isSimple()).toBeFalsy()
+    })
+
     test("subgroup", () => {
       expect(Alt3Group.isSubgroupOf(Sym3Group)).toBeTruthy()
     })
