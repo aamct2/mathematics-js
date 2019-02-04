@@ -12,6 +12,14 @@ describe("SquareMatrix", () => {
     test("the trace is 12", () => {
       expect(matrix.trace.value).toBe(12)
     })
+
+    test("multiplying by a 3x3 matrix throws an error", () => {
+      const secondMatrix = new SquareMatrix(3, RealNumber)
+
+      expect(() => {
+        matrix.multiply(secondMatrix)
+      }).toThrow()
+    })
   })
 
   test("square matrix multiplication", () => {

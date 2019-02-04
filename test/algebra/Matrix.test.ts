@@ -39,6 +39,22 @@ describe("Matrix", () => {
 
       expect(matrix.isEqualTo(matrix2)).toBeFalsy()
     })
+
+    test("multiplying by scalar 3 retuns expected result", () => {
+      const expected = new Matrix(3, 3, RealNumber)
+
+      for (let rowIndex = 0; rowIndex < 3; rowIndex++) {
+        for (let columnIndex = 0; columnIndex < 3; columnIndex++) {
+          expected.setItem(rowIndex, columnIndex, new RealNumber(rowIndex * 3))
+        }
+      }
+
+      expect(matrix.multiplyByScalar(new RealNumber(3)).isEqualTo(expected)).toBeTruthy()
+    })
+
+    it("has a string representation as expected", () => {
+      expect(matrix.toString()).toBe("|0 0 0|\n|1 1 1|\n|2 2 2|")
+    })
   })
 
   describe("constructor errors", () => {

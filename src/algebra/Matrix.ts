@@ -10,7 +10,7 @@ export class Matrix<T extends IComparable<T> & ISubtractable<T> & IDivideable<T>
   protected tConstructor: new () => T
   private data: T[][]
 
-  public constructor(height: number = 3, width: number = 3, tConstructor: new () => T) {
+  public constructor(height: number, width: number, tConstructor: new () => T) {
     if (width < 1) {
       throw new Error("The width of a matrix cannot be < 1")
     } else if (height < 1) {
@@ -143,7 +143,11 @@ export class Matrix<T extends IComparable<T> & ISubtractable<T> & IDivideable<T>
         result += " " + this.item(rowIndex, columnIndex).toString()
       }
 
-      result += "|\n"
+      result += "|"
+
+      if (rowIndex < this.height - 1) {
+        result += "\n"
+      }
     }
 
     return result

@@ -3,7 +3,7 @@ import { Matrix } from "./Matrix"
 
 export class SquareMatrix<T extends IComparable<T> & ISubtractable<T> & IDivideable<T>> extends Matrix<T>
   implements IEquatable<SquareMatrix<T>>, IMultipliable<SquareMatrix<T>> {
-  public constructor(width: number = 3, tConstructor: new () => T) {
+  public constructor(width: number, tConstructor: new () => T) {
     super(width, width, tConstructor)
   }
 
