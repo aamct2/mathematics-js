@@ -46,6 +46,10 @@ describe("FiniteGroup", () => {
     // non-Abelian, Nilpotent, Solvable, Dedekind, T-Group, Special
     const QuatGroup = QuaternionGroup()
 
+    // Order: 2
+    // Abelian, Ambivalen, Cyclic, Nilpotent, Solvable, Simple, T-Group
+    const Sym2Group = SymmetricGroup(2)
+
     // Order: 6
     // non-Abelian, non-Nilpotent, Solvable
     // (Not sure, but the system claims Sym3Group is metanilpotent. Need to verify)
@@ -64,6 +68,7 @@ describe("FiniteGroup", () => {
       expect(Alt3Group.isAbelian()).toBeTruthy()
       expect(dihedral8Group.isAbelian()).toBeFalsy()
       expect(QuatGroup.isAbelian()).toBeFalsy()
+      expect(Sym2Group.isAbelian()).toBeTruthy()
       expect(Sym3Group.isAbelian()).toBeFalsy()
       expect(Zmod2Group.isAbelian()).toBeTruthy()
     })
@@ -81,6 +86,7 @@ describe("FiniteGroup", () => {
     test("cyclic", () => {
       expect(Alt3Group.isCyclic()).toBeTruthy()
       expect(dihedral8Group.isCyclic()).toBeFalsy()
+      expect(Sym2Group.isCyclic()).toBeTruthy()
       expect(Sym3Group.isCyclic()).toBeFalsy()
       expect(Zmod2Group.isCyclic()).toBeTruthy()
     })
