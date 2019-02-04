@@ -108,6 +108,7 @@ describe("FiniteGroup", () => {
     })
 
     test("normal subgroup", () => {
+      expect(Alt3Group.isNormalSubgroupOf(Sym3Group)).toBeTruthy()
       expect(Zmod4Group.trivialSubgroup().isNormalSubgroupOf(Zmod4Group)).toBeTruthy()
       expect(Zmod4Group.isNormalSubgroupOf(Zmod4Group)).toBeTruthy()
       expect(dihedral8Group.centerGroup().isNormalSubgroupOf(dihedral8Group)).toBeTruthy()
@@ -136,6 +137,10 @@ describe("FiniteGroup", () => {
 
     test("subgroup", () => {
       expect(Alt3Group.isSubgroupOf(Sym3Group)).toBeTruthy()
+    })
+
+    test("subgroup index", () => {
+      expect(Alt3Group.subgroupIndex(Sym3Group)).toBe(2)
     })
   })
 
@@ -277,17 +282,35 @@ describe("FiniteGroup", () => {
     })
   })
 
-  test("the quotient of Zmod6 and {0, 3} is as expected", () => {
+  describe("given Zmod6 and the subgroup {0, 3}", () => {
     const Zmod6Group = ZmodNAdditionGroup(6)
     const subset = new FiniteSet<IntegerNumber>([0, 3].map(x => new IntegerNumber(x)))
     const restriction = Zmod6Group.operation.restriction(subset)
     const subgroup = new FiniteGroup(subset, restriction)
 
-    const secondElement = new FiniteSet<IntegerNumber>([1, 4].map(x => new IntegerNumber(x)))
-    const thirdElement = new FiniteSet<IntegerNumber>([2, 5].map(x => new IntegerNumber(x)))
-    const expected = new FiniteSet([subset, secondElement, thirdElement])
+    Zmod6Group.isAbelian()
+    Zmod6Group.isCyclic()
+    const quotient = Zmod6Group.quotientGroup(subgroup)
 
-    expect(Zmod6Group.quotientGroup(subgroup).set.isEqualTo(expected)).toBeTruthy()
+    test("the quotient is as expected", () => {
+      const secondElement = new FiniteSet<IntegerNumber>([1, 4].map(x => new IntegerNumber(x)))
+      const thirdElement = new FiniteSet<IntegerNumber>([2, 5].map(x => new IntegerNumber(x)))
+      const expected = new FiniteSet([subset, secondElement, thirdElement])
+
+      expect(quotient.set.isEqualTo(expected)).toBeTruthy()
+    })
+
+    // Cannot test directly, so only allow 1ms for test
+    // If property isn't inherited, it is unlikely to complete within timelimit
+    test("the quotient inherits properties", () => {
+      expect(quotient.isCyclic()).toBeTruthy()
+    }, 1)
+
+    // Cannot test directly, so only allow 1ms for test
+    // If manual construction is used, it is unlikely to complete within timelimit
+    test("the calculation of the set of all normal subgroups is trivial", () => {
+      expect(Zmod6Group.setOfAllNormalSubgroups())
+    }, 1)
   })
 
   test("the trivial subgroup of a known abelian group is abelian", () => {
@@ -307,6 +330,7 @@ describe("FiniteGroup", () => {
 
   describe("group errors", () => {
     const Zmod2Group = ZmodNAdditionGroup(2)
+    const Zmod4Group = ZmodNAdditionGroup(4)
     const Zmod3Set = new FiniteSet<IntegerNumber>([0, 1, 2].map(x => new IntegerNumber(x)))
 
     test("the centralizer of a set that is not a subset throws an error", () => {
@@ -340,8 +364,6 @@ describe("FiniteGroup", () => {
     })
 
     test("the left coset with respect to a group that is not a subgroup throws an error", () => {
-      const Zmod4Group = ZmodNAdditionGroup(4)
-
       expect(() => {
         Zmod4Group.leftCoset(Zmod2Group, new IntegerNumber(1))
       }).toThrow()
@@ -354,10 +376,14 @@ describe("FiniteGroup", () => {
     })
 
     test("the right coset with respect to a group that is not a subgroup throws an error", () => {
-      const Zmod4Group = ZmodNAdditionGroup(4)
-
       expect(() => {
         Zmod4Group.rightCoset(Zmod2Group, new IntegerNumber(1))
+      }).toThrow()
+    })
+
+    test("taking the quotient with a non-normal subgroup throws an error", () => {
+      expect(() => {
+        Zmod4Group.quotientGroup(Zmod2Group)
       }).toThrow()
     })
 
@@ -376,6 +402,12 @@ describe("FiniteGroup", () => {
     test("the power of an element not in the group throws an error", () => {
       expect(() => {
         Zmod2Group.power(new IntegerNumber(4), 3)
+      }).toThrow()
+    })
+
+    test("the subgroup index calculation where there is not a subgroup relationship throws an error", () => {
+      expect(() => {
+        Zmod2Group.subgroupIndex(Zmod4Group)
       }).toThrow()
     })
   })

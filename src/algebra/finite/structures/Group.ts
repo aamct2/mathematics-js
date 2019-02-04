@@ -715,7 +715,7 @@ export class FiniteGroup<T extends IEquatable<T>> extends FiniteMonoid<T> implem
       throw new NotSubgroupException("This group is not a subgroup of the parameter `superGroup`.")
     }
 
-    return this.order / supergroup.order
+    return supergroup.order / this.order
   }
 
   /**
